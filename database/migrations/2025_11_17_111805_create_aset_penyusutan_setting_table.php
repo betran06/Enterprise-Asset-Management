@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('aset_penyusutan_setting', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('aset_id')->unique();
-            $table->unsignedInteger('djp_kelompok_id');
+            $table->Integer('djp_kelompok_id');
             $table->enum('metode', ['GARIS_LURUS', 'SALDO_MENURUN'])->default('GARIS_LURUS');
             $table->decimal('harga_perolehan', 18, 2)->default(0);
             $table->decimal('nilai_sisa', 18, 2)->nullable();
