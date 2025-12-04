@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role_id'
     ];
 
     /**
@@ -47,5 +47,27 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    // =========================
+    //     HELPER ROLE
+    // =========================
+
+    /** cek 1 role */
+    public function hasRole(string $role): bool
+    {
+        return optional($this->role)->role === $role;
+    }
+
+    /** cek role dalam array */
+    public function inRoles(array $roles): bool
+    {
+        return in_array(optional($this->role)->role, $roles, true);
+    }
+
+    /** shortcut: user->role_name */
+    public function getRoleNameAttribute()
+    {
+        return optional($this->role)->role;
     }
 }
