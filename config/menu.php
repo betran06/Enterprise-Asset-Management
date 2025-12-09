@@ -12,9 +12,9 @@ return [
     [
         'header' => 'Data Master',
         'items' => [
-            ['label' => 'Barang', 'icon' => 'fa fa-cubes-stacked', 'route' => 'barang.index', 'roles' => ['admin','staf','manager']],
+            ['label' => 'Aset', 'icon' => 'fa fa-cubes-stacked', 'route' => 'aset.index', 'roles' => ['admin','staf','manager']],
             ['label' => 'Kategori', 'icon' => 'fa fa-list', 'route' => 'kategori.index', 'roles' => ['admin','staf','manager']],
-            ['label' => 'Merek', 'icon' => 'fa fa-copyright', 'route' => 'merk.index', 'roles' => ['admin','staf','manager']],
+            // ['label' => 'Merek', 'icon' => 'fa fa-copyright', 'route' => 'merk.index', 'roles' => ['admin','staf','manager']],
             ['label' => 'Lokasi', 'icon' => 'fa fa-school', 'route' => 'lokasi.index', 'roles' => ['admin','staf','manager']],
         ],
     ],

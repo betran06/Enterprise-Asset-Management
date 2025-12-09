@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LokasiController;
+use App\Http\Controllers\AsetController;
+
+
 
 
 /*
@@ -25,6 +30,11 @@ Route::middleware('auth')->group(function () {
     // Route::group(['middleware'], function () {
         Route::get('/', [HomeController::class, 'index']);
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+        Route::resource('/kategori', KategoriController::class);
+        Route::resource('/lokasi', LokasiController::class);
+        Route::resource('/aset', AsetController::class);
+
 
     });
 });

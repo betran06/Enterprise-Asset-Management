@@ -29,7 +29,6 @@
                             $isActive = true;
                         }
 
-                        // Icon fallback
                         $icon = $item['icon'] ?? 'fa fa-circle';
                     @endphp
 

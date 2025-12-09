@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class KategoriAset extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles';
+    protected $table = 'kategori_aset';
 
     protected $fillable = [
-        'role',
+        'nama_kategori',
     ];
 
     /**
      * RELATION
-     * Satu role memiliki banyak user
+     * Satu kategori memiliki banyak aset
      */
-    public function users()
+    public function aset()
     {
-        return $this->hasMany(User::class, 'role_id');
+        return $this->hasMany(Aset::class, 'kategori_id');
     }
 }
