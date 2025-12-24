@@ -5,8 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\AsetController;
-
-
+use App\Http\Controllers\Pelaporan\TambahPelaporanController;
+use App\Http\Controllers\Pelaporan\PelaporanMasukController;
+use App\Http\Controllers\Pelaporan\CekPelaporanController;
+use App\Http\Controllers\Pelaporan\PelaporanSelesaiController;
 
 
 /*
@@ -30,11 +32,28 @@ Route::middleware('auth')->group(function () {
     // Route::group(['middleware'], function () {
         Route::get('/', [HomeController::class, 'index']);
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/lokasi', LokasiController::class);
         Route::resource('/aset', AsetController::class);
 
-
     });
+
+    Route::group(['middleware'  => 'CheckRole:admin,staf'], function () {
+        Route::get('/tambah-pelaporan', [TambahPelaporanController::class, 'index'])->name('tambah-pelaporan.index');
+        Route::get('/get-data-aset', [TambahPelaporanController::class, 'getDataAset']);
+        Route::post('/tambah-pelaporan', [TambahPelaporanController::class, 'store'])->name('tambah-pelaporan.store');
+    });
+
+    Route::group(['middleware'  => 'CheckRole:admin,manager'], function () {
+        Route::get('/pelaporan-masuk', [PelaporanMasukController::class, 'index'])->name('pelaporan-masuk.index');
+        Route::get('/pelaporan-masuk/detail/{id}', [PelaporanMasukController::class, 'detail']);
+        Route::put('/pelaporan-masuk/detail/{id}/perbaiki', [PelaporanMasukController::class, 'perbaiki']);
+        Route::put('/pelaporan-masuk/detail/{id}/selesai', [PelaporanMasukController::class, 'selesai']);
+        Route::get('/cek-pelaporan', [CekPelaporanController::class, 'index'])->name('cek-pelaporan.index');
+        Route::get('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'detail']);
+        Route::post('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'store']);
+        Route::get('/pelaporan-selesai', [PelaporanSelesaiController::class, 'index'])->name('pelaporan-selesai.index');
+        Route::get('/pelaporan-selesai/cetak-laporan/{id}', [PelaporanSelesaiController::class, 'cetakLaporan']);
+    });
+
 });

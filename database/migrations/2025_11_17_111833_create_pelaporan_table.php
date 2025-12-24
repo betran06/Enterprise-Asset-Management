@@ -12,7 +12,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('judul', 200);
             $table->text('deskripsi');
-            $table->enum('status', ['Menunggu','Selesai'])->nullable();
+            $table->enum('status', ['Menunggu','Proses Pengecekan','Selesai'])->nullable();
             $table->unsignedBigInteger('aset_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

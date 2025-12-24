@@ -11,7 +11,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon (optional) -->
-    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('assets/img/logo-aiti.svg') }}" type="image/x-icon" />
+    <!-- <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/favicon.svg') }}"> -->
+
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
