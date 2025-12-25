@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\AsetController;
+use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\Pelaporan\TambahPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanMasukController;
 use App\Http\Controllers\Pelaporan\CekPelaporanController;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/lokasi', LokasiController::class);
         Route::resource('/aset', AsetController::class);
+        Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
 
     });
 
@@ -54,6 +56,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'store']);
         Route::get('/pelaporan-selesai', [PelaporanSelesaiController::class, 'index'])->name('pelaporan-selesai.index');
         Route::get('/pelaporan-selesai/cetak-laporan/{id}', [PelaporanSelesaiController::class, 'cetakLaporan']);
+
+        Route::get('/karyawan/create', [KaryawanController::class, 'create']);
+        Route::post('/karyawan', [KaryawanController::class, 'store']);
+        Route::get('/karyawan/{id}/edit', [KaryawanController::class, 'edit']);
+        Route::put('/karyawan/{id}', [KaryawanController::class, 'update']);
+        Route::delete('/karyawan/{id}', [KaryawanController::class, 'destroy']);
     });
 
 });

@@ -14,8 +14,9 @@ return [
         'items' => [
             ['label' => 'Aset', 'icon' => 'fa fa-cubes-stacked', 'route' => 'aset.index', 'roles' => ['admin','staf','manager']],
             ['label' => 'Kategori', 'icon' => 'fa fa-list', 'route' => 'kategori.index', 'roles' => ['admin','staf','manager']],
-            // ['label' => 'Merek', 'icon' => 'fa fa-copyright', 'route' => 'merk.index', 'roles' => ['admin','staf','manager']],
+            // ['label' => 'Merek', 'icon' => 'fa fa-copyright', 'route' => 'karyawan.index', 'roles' => ['staf']],
             ['label' => 'Lokasi', 'icon' => 'fa fa-school', 'route' => 'lokasi.index', 'roles' => ['admin','staf','manager']],
+            ['label' => 'Karyawan', 'icon' => 'fa fa-copyright', 'route' => 'karyawan.index', 'roles' => ['admin','staf','manager']],
         ],
     ],
 
