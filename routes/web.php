@@ -6,6 +6,8 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\AsetController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\Pelaporan\TambahPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanMasukController;
 use App\Http\Controllers\Pelaporan\CekPelaporanController;
@@ -63,5 +65,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/karyawan/{id}', [KaryawanController::class, 'update']);
         Route::delete('/karyawan/{id}', [KaryawanController::class, 'destroy']);
     });
+
+
+    Route::middleware(['auth', 'CheckRole:admin'])->group(function () {
+        Route::resource('/users', UserController::class);
+        Route::get('/user/status', [UserStatusController::class, 'index'])->name('users.status');
+    });
+
 
 });

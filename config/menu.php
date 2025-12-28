@@ -10,11 +10,18 @@ return [
     ],
 
     [
+        'header' => 'Akun',
+        'items' => [
+            ['label' => 'Daftar Akun', 'icon' => 'fa fa-fire', 'route' => 'users.index', 'roles' => ['admin']],
+            ['label' => 'Aktivitas Akun', 'icon' => 'fa fa-water', 'route' => 'users.status', 'roles' => ['admin']],
+        ],
+    ],
+
+    [
         'header' => 'Data Master',
         'items' => [
             ['label' => 'Aset', 'icon' => 'fa fa-cubes-stacked', 'route' => 'aset.index', 'roles' => ['admin','staf','manager']],
             ['label' => 'Kategori', 'icon' => 'fa fa-list', 'route' => 'kategori.index', 'roles' => ['admin','staf','manager']],
-            // ['label' => 'Merek', 'icon' => 'fa fa-copyright', 'route' => 'karyawan.index', 'roles' => ['staf']],
             ['label' => 'Lokasi', 'icon' => 'fa fa-school', 'route' => 'lokasi.index', 'roles' => ['admin','staf','manager']],
             ['label' => 'Karyawan', 'icon' => 'fa fa-copyright', 'route' => 'karyawan.index', 'roles' => ['admin','staf','manager']],
         ],
