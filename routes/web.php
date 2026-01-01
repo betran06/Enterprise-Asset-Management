@@ -8,22 +8,13 @@ use App\Http\Controllers\AsetController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStatusController;
+use App\Http\Controllers\Penyusutan\PenyusutanController;
+use App\Http\Controllers\Penyusutan\PenyusutanSettingController;
 use App\Http\Controllers\Pelaporan\TambahPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanMasukController;
 use App\Http\Controllers\Pelaporan\CekPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanSelesaiController;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -39,6 +30,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('/lokasi', LokasiController::class);
         Route::resource('/aset', AsetController::class);
         Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
+        Route::get('/penyusutan', [PenyusutanController::class, 'index'])->name('penyusutan.index');
+        Route::get('/penyusutan/{aset}', [PenyusutanController::class, 'show'])->name('penyusutan.show');
+        Route::post('/penyusutan/{aset}/susutkan', [PenyusutanController::class, 'susutkan'])->name('penyusutan.susutkan');
 
     });
 
@@ -64,6 +58,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/karyawan/{id}/edit', [KaryawanController::class, 'edit']);
         Route::put('/karyawan/{id}', [KaryawanController::class, 'update']);
         Route::delete('/karyawan/{id}', [KaryawanController::class, 'destroy']);
+
+        Route::get('/penyusutan-setting', [PenyusutanSettingController::class, 'index'])->name('setting.index');
+        Route::get('/penyusutan-setting/create', [PenyusutanSettingController::class, 'create'])->name('setting.create');
+        Route::post('/penyusutan-setting', [PenyusutanSettingController::class, 'store'])->name('setting.store');
+        Route::get('/penyusutan-setting/{setting}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
+        Route::put('/penyusutan-setting/{setting}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
+        
     });
 
 

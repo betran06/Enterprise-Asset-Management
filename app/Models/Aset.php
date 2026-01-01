@@ -45,4 +45,14 @@ class Aset extends Model
     {
         return $this->belongsTo(Karyawan::class, 'karyawan_id');
     }
+
+    public function penyusutanSetting()
+    {
+        return $this->hasOne(AsetPenyusutanSetting::class, 'aset_id');
+    }
+
+    public function penyusutanBulanan()
+    {
+        return $this->hasMany(PenyusutanBulanan::class, 'aset_id');
+    }
 }

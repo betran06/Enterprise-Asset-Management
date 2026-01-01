@@ -28,6 +28,14 @@ return [
     ],
 
     [
+        'header' => 'Nilai Penyusutan',
+        'items' => [
+            ['label' => 'Daftar Penyusutan', 'icon'  => 'fa fa-chart-line', 'route' => 'penyusutan.index', 'roles' => ['admin', 'manager']],
+            ['label' => 'Setting Penyusutan', 'icon'  => 'fa fa-sliders', 'route' => 'setting.index', 'roles' => ['admin', 'manager']],
+        ],
+    ],
+
+    [
         'header' => 'Pelaporan',
         'items' => [
             ['label' => 'Pelaporan Aset Masuk', 'icon' => 'fa fa-file-arrow-down', 'route' => 'pelaporan-masuk.index', 'roles' => ['admin','manager']],
