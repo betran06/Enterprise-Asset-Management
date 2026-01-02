@@ -24,7 +24,7 @@
 
     <div class="card card-warning">
         <div class="card-body">
-            <form action="{{ route('penyusutan.setting.update', $setting->id) }}" method="POST">
+            <form action="{{ route('setting.update', $setting->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 

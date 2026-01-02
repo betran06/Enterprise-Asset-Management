@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
         Route::get('/penyusutan', [PenyusutanController::class, 'index'])->name('penyusutan.index');
         Route::get('/penyusutan/{aset}', [PenyusutanController::class, 'show'])->name('penyusutan.show');
-        Route::post('/penyusutan/{aset}/susutkan', [PenyusutanController::class, 'susutkan'])->name('penyusutan.susutkan');
+        Route::get('/penyusutan/{aset}/export-pdf', [PenyusutanController::class, 'cetakPdf'])->name('penyusutan.export-pdf');
 
     });
 
@@ -59,18 +59,20 @@ Route::middleware('auth')->group(function () {
         Route::put('/karyawan/{id}', [KaryawanController::class, 'update']);
         Route::delete('/karyawan/{id}', [KaryawanController::class, 'destroy']);
 
-        Route::get('/penyusutan-setting', [PenyusutanSettingController::class, 'index'])->name('setting.index');
-        Route::get('/penyusutan-setting/create', [PenyusutanSettingController::class, 'create'])->name('setting.create');
-        Route::post('/penyusutan-setting', [PenyusutanSettingController::class, 'store'])->name('setting.store');
-        Route::get('/penyusutan-setting/{setting}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
-        Route::put('/penyusutan-setting/{setting}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
-        
+        Route::post('/penyusutan/{aset}/susutkan', [PenyusutanController::class, 'susutkan'])->name('penyusutan.susutkan');
+
+        Route::get('/setting-penyusutan', [PenyusutanSettingController::class, 'index'])->name('setting.index');
+        Route::get('/setting-penyusutan/create', [PenyusutanSettingController::class, 'create'])->name('setting.create');
+        Route::post('/setting-penyusutan', [PenyusutanSettingController::class, 'store'])->name('setting.store');
+        Route::get('/setting-penyusutan/{aset}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
+        Route::put('/setting-penyusutan/{aset}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
+
     });
 
 
     Route::middleware(['auth', 'CheckRole:admin'])->group(function () {
         Route::resource('/users', UserController::class);
-        Route::get('/user/status', [UserStatusController::class, 'index'])->name('users.status');
+        Route::get('/status-users', [UserStatusController::class, 'index'])->name('users.status');
     });
 
 

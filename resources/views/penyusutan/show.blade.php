@@ -98,12 +98,27 @@
     </div>
 
     {{-- ===============================
-        RIWAYAT PENYUSUTAN
-    ================================ --}}
+            RIWAYAT PENYUSUTAN
+    =============================== --}}
     <div class="card card-primary">
-        <div class="card-header">
-            <h4>Riwayat Penyusutan Bulanan</h4>
+        <div class="card-header d-flex align-items-center">
+            <h4 class="mb-0">Riwayat Penyusutan Bulanan</h4>
+
+            <div class="ml-auto">
+                @if ($aset->penyusutanBulanan->isNotEmpty())
+                    <a href="{{ route('penyusutan.export-pdf', $aset->id) }}"
+                    target="_blank"
+                    class="btn btn-danger btn-sm">
+                        <i class="fa fa-file-pdf"></i> Export PDF
+                    </a>
+                @else
+                    <button class="btn btn-secondary btn-sm" disabled>
+                        <i class="fa fa-file-pdf"></i> Export PDF
+                    </button>
+                @endif
+            </div>
         </div>
+
         <div class="card-body">
             @if ($aset->penyusutanBulanan->isEmpty())
                 <div class="alert alert-info">
