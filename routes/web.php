@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\Penyusutan\PenyusutanController;
 use App\Http\Controllers\Penyusutan\PenyusutanSettingController;
+use App\Http\Controllers\Penyusutan\PenyusutanDisposalController;
 use App\Http\Controllers\Pelaporan\TambahPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanMasukController;
 use App\Http\Controllers\Pelaporan\CekPelaporanController;
@@ -33,8 +34,10 @@ Route::middleware('auth')->group(function () {
         Route::put('/aset/{aset}/pengguna', [AsetController::class, 'updatePengguna'])->name('aset.updatePengguna');
         Route::get('/penyusutan', [PenyusutanController::class, 'index'])->name('penyusutan.index');
         Route::get('/penyusutan/{aset}', [PenyusutanController::class, 'show'])->name('penyusutan.show');
+        Route::get('/penyusutan/{aset}/export-pdf', [PenyusutanController::class, 'cetakPdf'])->name('penyusutan.export-pdf');
         Route::post('/penyusutan/{aset}/susutkan', [PenyusutanController::class, 'susutkan'])->name('penyusutan.susutkan');
-
+        Route::get('/penyusutan/{aset}/disposal', [PenyusutanDisposalController::class, 'create'])->name('penyusutan.dispose.form');
+        Route::put('/penyusutan/{aset}/disposal', [PenyusutanDisposalController::class, 'store'])->name('penyusutan.dispose.store');
 
     });
 

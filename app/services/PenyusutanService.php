@@ -19,6 +19,13 @@ class PenyusutanService
         int $userId
     ): PenyusutanBulanan {
 
+         // =========================
+        // 0. Cek status disposal
+        // =========================
+        if ($setting->is_disposed) {
+            throw new \Exception('Aset sudah di-disposal. Penyusutan tidak dapat dilanjutkan.');
+        }
+
         // =========================
         // 1. Tentukan periode
         // =========================

@@ -83,17 +83,53 @@
     </div>
 
     {{-- ===============================
-        TOMBOL SUSUTKAN (PASTI MUNCUL)
+        INFO DISPOSAL (JIKA ADA)
+    ================================ --}}
+    @if ($aset->penyusutanSetting && $aset->penyusutanSetting->is_disposed)
+        <div class="alert alert-danger mb-3">
+            <h6 class="mb-2">
+                <i class="fa fa-ban"></i> Aset Telah Didisposal
+            </h6>
+            <table class="table table-sm mb-0">
+                <tr>
+                    <th width="200">Alasan Disposal</th>
+                    <td>{{ $aset->penyusutanSetting->alasan_disposed }}</td>
+                </tr>
+                <tr>
+                    <th>Catatan</th>
+                    <td>{{ $aset->penyusutanSetting->catatan_disposal ?? '-' }}</td>
+                </tr>
+            </table>
+        </div>
+    @endif
+
+
+    {{-- ===============================
+        AKSI PENYUSUTAN
     ================================ --}}
     <div class="card mb-3">
         <div class="card-body">
-            <form action="{{ route('penyusutan.susutkan', $aset->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-warning">
-                    <i class="fa fa-calculator"></i>
-                    Susutkan Bulan Ini
-                </button>
-            </form>
+
+            {{-- TOMBOL SUSUTKAN --}}
+            @if ($aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)
+                <form action="{{ route('penyusutan.susutkan', $aset->id) }}"
+                      method="POST"
+                      class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fa fa-calculator"></i> Susutkan Bulan Ini
+                    </button>
+                </form>
+            @endif
+
+            {{-- TOMBOL DISPOSAL --}}
+            @if ($aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)
+                <a href="{{ route('penyusutan.dispose.form', $aset->id) }}"
+                   class="btn btn-danger ml-2">
+                    <i class="fa fa-trash"></i> Disposal Aset
+                </a>
+            @endif
+
         </div>
     </div>
 
@@ -101,8 +137,22 @@
         RIWAYAT PENYUSUTAN
     ================================ --}}
     <div class="card card-primary">
-        <div class="card-header">
-            <h4>Riwayat Penyusutan Bulanan</h4>
+        <div class="card-header d-flex align-items-center">
+            <h4 class="mb-0">Riwayat Penyusutan Bulanan</h4>
+
+            <div class="ml-auto">
+                @if ($aset->penyusutanBulanan->isNotEmpty())
+                    <a href="{{ route('penyusutan.export-pdf', $aset->id) }}"
+                    target="_blank"
+                    class="btn btn-danger btn-sm">
+                        <i class="fa fa-file-pdf"></i> Export PDF
+                    </a>
+                @else
+                    <button class="btn btn-secondary btn-sm" disabled>
+                        <i class="fa fa-file-pdf"></i> Export PDF
+                    </button>
+                @endif
+            </div>
         </div>
         <div class="card-body">
             @if ($aset->penyusutanBulanan->isEmpty())

@@ -7,6 +7,8 @@ use App\Models\Aset;
 use App\Models\DjpKelompok;
 use App\Models\AsetPenyusutanSetting;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class PenyusutanSettingController extends Controller
 {
@@ -129,4 +131,48 @@ class PenyusutanSettingController extends Controller
             ->route('setting.index')
             ->with('success', 'Setting penyusutan berhasil diperbarui.');
     }
+
+
+    public function dispose(Request $request, Aset $aset)
+    {
+        // =========================
+        // Role guard (double safety)
+        // =========================
+        if (!auth()->user()->inRoles(['admin', 'manager'])) {
+            abort(403, 'Tidak memiliki akses.');
+        }
+
+        $setting = $aset->penyusutanSetting;
+
+        if (!$setting) {
+            return back()->with('error', 'Setting penyusutan tidak ditemukan.');
+        }
+
+        if ($setting->is_disposed) {
+            return back()->with('error', 'Aset sudah di-disposal.');
+        }
+
+        // =========================
+        // Validasi input
+        // =========================
+        $request->validate([
+            'alasan_disposed' => [
+                'required',
+                Rule::in(['RUSAK','DIJUAL','HIBAH','HILANG','LAINNYA']),
+            ],
+            'catatan_disposal' => 'required|string|min:5',
+        ]);
+
+        // =========================
+        // Update disposal
+        // =========================
+        $setting->update([
+            'is_disposed'      => true,
+            'alasan_disposed'  => $request->alasan_disposed,
+            'catatan_disposal' => $request->catatan_disposal,
+        ]);
+
+        return back()->with('success', 'Aset berhasil di-disposal.');
+    }
+
 }

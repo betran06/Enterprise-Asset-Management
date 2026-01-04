@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Penyusutan;
 use App\Http\Controllers\Controller;
 use App\Models\Aset;
 use App\Models\PenyusutanBulanan;
+use App\Models\AsetPenyusutanSetting;
 use App\Services\PenyusutanService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -92,7 +93,7 @@ class PenyusutanController extends Controller
 
     public function cetakPdf($asetId)
     {
-        $setting = AsetPenyusutanSetting::with(['aset', 'djpKelompok'])
+        $setting = AsetPenyusutanSetting::with(['aset.kategori', 'aset.lokasi', 'djpKelompok'])
             ->where('aset_id', $asetId)
             ->firstOrFail();
 
@@ -104,10 +105,6 @@ class PenyusutanController extends Controller
             'aset' => $setting->aset,
             'setting' => $setting,
             'riwayat' => $riwayat,
-            'totalAkumulasi' => $riwayat->sum('beban_bulan'),
-            'nilaiBukuTerakhir' => $riwayat->last()->nilai_buku_akhir
-                ?? $setting->harga_perolehan,
-            'bulanDisusutkan' => $riwayat->count(),
         ];
 
         $pdf = Pdf::loadView('penyusutan.pdf', $data)
