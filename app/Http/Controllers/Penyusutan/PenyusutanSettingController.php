@@ -55,7 +55,6 @@ class PenyusutanSettingController extends Controller
             'harga_perolehan'      => 'required|numeric|min:0',
             'nilai_sisa'           => 'nullable|numeric|min:0',
             'umur_bulan'           => 'nullable|integer|min:1',
-            'tarif_tahunan_override' => 'nullable|numeric|min:0|max:100',
             'tgl_mulai_pakai'      => 'required|date',
         ]);
 
@@ -66,7 +65,6 @@ class PenyusutanSettingController extends Controller
             'harga_perolehan'         => $request->harga_perolehan,
             'nilai_sisa'              => $request->nilai_sisa,
             'umur_bulan'              => $request->umur_bulan,
-            'tarif_tahunan_override'  => $request->tarif_tahunan_override,
             'tgl_mulai_pakai'         => $request->tgl_mulai_pakai,
         ]);
 
@@ -115,7 +113,6 @@ class PenyusutanSettingController extends Controller
             'harga_perolehan'      => 'required|numeric|min:0',
             'nilai_sisa'           => 'nullable|numeric|min:0',
             'umur_bulan'           => 'nullable|integer|min:1',
-            'tarif_tahunan_override' => 'nullable|numeric|min:0|max:100',
             'tgl_mulai_pakai'      => 'required|date',
         ]);
 
@@ -125,7 +122,6 @@ class PenyusutanSettingController extends Controller
             'harga_perolehan'        => $request->harga_perolehan,
             'nilai_sisa'             => $request->nilai_sisa,
             'umur_bulan'             => $request->umur_bulan,
-            'tarif_tahunan_override' => $request->tarif_tahunan_override,
             'tgl_mulai_pakai'        => $request->tgl_mulai_pakai,
         ]);
 

@@ -30,9 +30,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('/lokasi', LokasiController::class);
         Route::resource('/aset', AsetController::class);
         Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
+        Route::put('/aset/{aset}/pengguna', [AsetController::class, 'updatePengguna'])->name('aset.updatePengguna');
         Route::get('/penyusutan', [PenyusutanController::class, 'index'])->name('penyusutan.index');
         Route::get('/penyusutan/{aset}', [PenyusutanController::class, 'show'])->name('penyusutan.show');
         Route::post('/penyusutan/{aset}/susutkan', [PenyusutanController::class, 'susutkan'])->name('penyusutan.susutkan');
+
 
     });
 
@@ -59,11 +61,11 @@ Route::middleware('auth')->group(function () {
         Route::put('/karyawan/{id}', [KaryawanController::class, 'update']);
         Route::delete('/karyawan/{id}', [KaryawanController::class, 'destroy']);
 
-        Route::get('/penyusutan-setting', [PenyusutanSettingController::class, 'index'])->name('setting.index');
-        Route::get('/penyusutan-setting/create', [PenyusutanSettingController::class, 'create'])->name('setting.create');
-        Route::post('/penyusutan-setting', [PenyusutanSettingController::class, 'store'])->name('setting.store');
-        Route::get('/penyusutan-setting/{setting}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
-        Route::put('/penyusutan-setting/{setting}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
+        Route::get('/setting-penyusutan', [PenyusutanSettingController::class, 'index'])->name('setting.index');
+        Route::get('/setting-penyusutan/create', [PenyusutanSettingController::class, 'create'])->name('setting.create');
+        Route::post('/setting-penyusutan', [PenyusutanSettingController::class, 'store'])->name('setting.store');
+        Route::get('/setting-penyusutan/{setting}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
+        Route::put('/setting-penyusutan/{setting}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
         
     });
 

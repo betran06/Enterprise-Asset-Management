@@ -18,7 +18,6 @@ class AsetPenyusutanSetting extends Model
         'harga_perolehan',
         'nilai_sisa',
         'umur_bulan',
-        'tarif_tahunan_override',
         'is_disposed',
         'tgl_mulai_pakai',
         'alasan_disposed',
@@ -28,7 +27,6 @@ class AsetPenyusutanSetting extends Model
     protected $casts = [
         'harga_perolehan' => 'decimal:2',
         'nilai_sisa' => 'decimal:2',
-        'tarif_tahunan_override' => 'decimal:2',
         'is_disposed' => 'boolean',
         'tgl_mulai_pakai' => 'date',
     ];

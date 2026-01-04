@@ -107,8 +107,7 @@ class PenyusutanService
         float $nilaiBukuAwal,
         AsetPenyusutanSetting $setting
     ): float {
-        $tarifTahunan = $setting->tarif_tahunan_override
-            ?? $setting->djpKelompok->tarif_sm_percent;
+        $tarifTahunan = $setting->djpKelompok->tarif_sm_percent;
 
         return round(
             ($nilaiBukuAwal * ($tarifTahunan / 100)) / 12,

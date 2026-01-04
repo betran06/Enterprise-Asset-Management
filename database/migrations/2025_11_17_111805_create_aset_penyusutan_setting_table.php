@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('harga_perolehan', 18, 2)->default(0);
             $table->decimal('nilai_sisa', 18, 2)->nullable();
             $table->integer('umur_bulan')->nullable();
-            $table->decimal('tarif_tahunan_override', 5, 2)->nullable();
+            // $table->decimal('tarif_tahunan_override', 5, 2)->nullable();
             $table->boolean('is_disposed')->default(false);
             $table->date('tgl_mulai_pakai');
             $table->enum('alasan_disposed', ['RUSAK','DIJUAL','HIBAH','HILANG','LAINNYA'])->nullable();

@@ -121,11 +121,13 @@ class AsetController extends Controller
             ->where('aset_id', $aset->id)
             ->orderBy('created_at', 'desc')
             ->get();
+        
+        $karyawans = Karyawan::orderBy('nama')->get();
 
         $qrPath = 'qrcode/' . $aset->kode_aset . '.png';
         $qrUrl = Storage::disk('public')->exists($qrPath) ? Storage::url($qrPath) : null;
 
-        return view('aset.show', compact('aset', 'pelaporans', 'qrUrl'));
+        return view('aset.show', compact('aset', 'pelaporans', 'karyawans', 'qrUrl'));
     }
 
     /**
@@ -246,4 +248,22 @@ class AsetController extends Controller
             return redirect()->route('aset.index')->with('error', 'Gagal menghapus aset.');
         }
     }
+
+    /**
+     * Update pengguna aset (digunakan oleh karyawan)
+     * Admin & Manager
+     */
+    public function updatePengguna(Request $request, Aset $aset)
+    {
+        $request->validate([
+            'karyawan_id' => 'nullable|exists:karyawan,id',
+        ]);
+
+        $aset->update([
+            'karyawan_id' => $request->karyawan_id,
+        ]);
+
+        return back()->with('success', 'Pengguna aset berhasil diperbarui.');
+    }
+
 }
