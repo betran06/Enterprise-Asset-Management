@@ -100,43 +100,58 @@
                     </div>
 
                     <hr>
-
                     <div class="card-body">
-                        <div class="section-title mt-0">History Perbaikan Aset</div>
+                        <div class="section-title mt-0">History Pelaporan Aset</div>
 
                         <div class="table-responsive mt-2">
                             <table class="table table-bordered">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Pelaporan</th>
-                                        <th scope="col">Deskripsi</th>
-                                        <th scope="col">Analisis Perbaikan</th>
-                                        <th scope="col">Tanggal Perbaikan</th>
+                                        <th>No</th>
+                                        <th>Judul Pelaporan</th>
+                                        <th>Deskripsi</th>
+                                        <th>Status</th>
+                                        <th>Analisis Perbaikan</th>
+                                        <th>Terakhir Update</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($pelaporans as $pelaporan)
-                                        @php
-                                            // cari feedback terkait pelaporan ini (jika ada)
-                                            $fb = $feedbacks->firstWhere('pelaporan_id', $pelaporan->id);
-                                        @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $pelaporan->judul }}</td>
                                             <td>{{ $pelaporan->deskripsi }}</td>
-                                            <td>{{ $fb->analisis_keputusan ?? '-' }}</td>
-                                            <td>{{ optional($pelaporan->updated_at)->format('Y-m-d H:i') ?? optional($pelaporan->created_at)->format('Y-m-d H:i') }}</td>
+                                            <td>
+                                                <span class="badge
+                                                    @if($pelaporan->status === 'Menunggu') badge-warning
+                                                    @elseif($pelaporan->status === 'Sedang Diperbaiki') badge-primary
+                                                    @elseif($pelaporan->status === 'Selesai') badge-success
+                                                    @endif
+                                                ">
+                                                    {{ $pelaporan->status }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if ($pelaporan->feedbacks->isNotEmpty())
+                                                    {{ $pelaporan->feedbacks->last()->analisis_keputusan }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ ($pelaporan->updated_at ?? $pelaporan->created_at)->format('Y-m-d H:i') }}
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="5" class="text-center">Belum ada riwayat perbaikan.</td>
+                                            <td colspan="6" class="text-center">
+                                                Belum ada riwayat pelaporan untuk aset ini.
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>

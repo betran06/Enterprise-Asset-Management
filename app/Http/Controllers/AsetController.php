@@ -6,8 +6,8 @@ use App\Models\Aset;
 use App\Models\KategoriAset;
 use App\Models\LokasiAset;
 use App\Models\Karyawan;
-// use App\Models\Pelaporan;
-// use App\Models\Feedback;
+use App\Models\Pelaporan;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -112,15 +112,20 @@ class AsetController extends Controller
      */
     public function show(Aset $aset)
     {
-        // $pelaporans = Pelaporan::where('aset_id', $aset->id)->orderBy('created_at', 'desc')->get();
-        // $feedbacks = Feedback::whereIn('pelaporan_id', $pelaporans->pluck('id'))->get();
-        $pelaporans = collect();   
-        $feedbacks  = collect();  
+        // ambil semua pelaporan untuk aset ini
+        $pelaporans = Pelaporan::with([
+                'user',
+                'feedbacks.user',
+                'feedbacks.replies.user'
+            ])
+            ->where('aset_id', $aset->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $qrPath = 'qrcode/' . $aset->kode_aset . '.png';
         $qrUrl = Storage::disk('public')->exists($qrPath) ? Storage::url($qrPath) : null;
 
-        return view('aset.show', compact('aset', 'pelaporans', 'feedbacks', 'qrUrl'));
+        return view('aset.show', compact('aset', 'pelaporans', 'qrUrl'));
     }
 
     /**
