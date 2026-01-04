@@ -83,6 +83,33 @@
                             <td><b>Lokasi</b></td><td>:</td>
                             <td>{{ optional($aset->lokasi)->nama_lokasi ?? '-' }}</td>
                         </tr>
+
+                        {{-- ===== STATUS PENYUSUTAN ===== --}}
+                        <tr>
+                            <td><b>Status Penyusutan</b></td><td>:</td>
+                            <td>
+                                @if (!$aset->penyusutanSetting)
+                                    <span class="badge badge-secondary">Belum Diset</span>
+                                @elseif ($aset->penyusutanSetting->is_disposed)
+                                    <span class="badge badge-danger">Disposed</span>
+                                @else
+                                    <span class="badge badge-success">Aktif</span>
+                                @endif
+                            </td>
+                        </tr>
+
+                        {{-- ===== INFO DISPOSAL (JIKA ADA) ===== --}}
+                        @if ($aset->penyusutanSetting && $aset->penyusutanSetting->is_disposed)
+                            <tr>
+                                <td><b>Alasan Disposal</b></td><td>:</td>
+                                <td>{{ $aset->penyusutanSetting->alasan_disposed ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Catatan Disposal</b></td><td>:</td>
+                                <td>{{ $aset->penyusutanSetting->catatan_disposal ?? '-' }}</td>
+                            </tr>
+                        @endif
+
                         <tr>
                             <td><b>Deskripsi</b></td><td>:</td>
                             <td>{!! $aset->deskripsi ?? '-' !!}</td>
@@ -96,33 +123,39 @@
                     </table>
 
                     {{-- ================= FORM UPDATE PENGGUNA ================= --}}
-                    <hr>
-                    <h6 class="mb-3"><b>Atur Pengguna Aset</b></h6>
+                    @if (!$aset->penyusutanSetting || !$aset->penyusutanSetting->is_disposed)
+                        <hr>
+                        <h6 class="mb-3"><b>Atur Pengguna Aset</b></h6>
 
-                    <form action="{{ route('aset.updatePengguna', $aset->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                        <form action="{{ route('aset.updatePengguna', $aset->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
 
-                        <div class="form-group">
-                            <label>Pilih Karyawan</label>
-                            <select name="karyawan_id" class="form-control">
-                                <option value="">-- Tidak Digunakan --</option>
-                                @foreach ($karyawans as $karyawan)
-                                    <option value="{{ $karyawan->id }}"
-                                        {{ $aset->karyawan_id == $karyawan->id ? 'selected' : '' }}>
-                                        {{ $karyawan->nama }}
-                                        @if($karyawan->jabatan)
-                                            - {{ $karyawan->jabatan }}
-                                        @endif
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label>Pilih Karyawan</label>
+                                <select name="karyawan_id" class="form-control">
+                                    <option value="">-- Tidak Digunakan --</option>
+                                    @foreach ($karyawans as $karyawan)
+                                        <option value="{{ $karyawan->id }}"
+                                            {{ $aset->karyawan_id == $karyawan->id ? 'selected' : '' }}>
+                                            {{ $karyawan->nama }}
+                                            @if($karyawan->jabatan)
+                                                - {{ $karyawan->jabatan }}
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <button class="btn btn-primary">
+                                <i class="fa fa-save"></i> Simpan Pengguna
+                            </button>
+                        </form>
+                    @else
+                        <div class="alert alert-warning mt-3">
+                            Aset sudah <b>Disposed</b>. Pengguna tidak dapat diubah.
                         </div>
-
-                        <button class="btn btn-primary">
-                            <i class="fa fa-save"></i> Simpan Pengguna
-                        </button>
-                    </form>
+                    @endif
                 </div>
 
                 {{-- ================= HISTORY PELAPORAN ================= --}}
