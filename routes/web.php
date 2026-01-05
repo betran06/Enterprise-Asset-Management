@@ -67,8 +67,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/setting-penyusutan', [PenyusutanSettingController::class, 'index'])->name('setting.index');
         Route::get('/setting-penyusutan/create', [PenyusutanSettingController::class, 'create'])->name('setting.create');
         Route::post('/setting-penyusutan', [PenyusutanSettingController::class, 'store'])->name('setting.store');
-        Route::get('/setting-penyusutan/{setting}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
-        Route::put('/setting-penyusutan/{setting}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
+        Route::get('/setting/{aset}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
+        Route::put('/setting/{aset}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
         
     });
 
