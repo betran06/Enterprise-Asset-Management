@@ -225,7 +225,6 @@
                 DASHBOARD USER (MANAGER)
             ========================== --}}
         @elseif (auth()->user()->role->role === 'manager')
-
             <div class="row">
 
                 <div class="col-lg-3">

@@ -51,10 +51,7 @@
 
                 <div class="form-group">
                     <label>Catatan Disposal</label>
-                    <textarea name="catatan_disposal"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Opsional"></textarea>
+                    <textarea name="catatan_disposal" class="form-control" rows="4" placeholder="Opsional"></textarea>
                 </div>
 
             </div>
