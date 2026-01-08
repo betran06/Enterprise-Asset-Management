@@ -29,6 +29,14 @@ return [
     ],
 
     [
+        'header' => 'Opname Aset',
+        'items' => [
+            ['label' => 'Daftar Opname', 'icon' => 'fa fa-clipboard-list', 'route' => 'opname.index', 'roles' => ['admin','manager','staf']],
+            ['label' => 'Mulai Opname', 'icon' => 'fa fa-qrcode', 'route' => 'opname.create', 'roles' => ['admin','staf']],
+        ],
+    ],
+
+    [
         'header' => 'Nilai Penyusutan',
         'items' => [
             ['label' => 'Daftar Penyusutan', 'icon'  => 'fa fa-chart-line', 'route' => 'penyusutan.index', 'roles' => ['admin', 'manager']],
