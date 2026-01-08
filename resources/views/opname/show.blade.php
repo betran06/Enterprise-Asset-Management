@@ -65,14 +65,12 @@
     <div class="card mb-3">
         <div class="card-body">
 
-            {{-- INPUT ASET --}}
             @if ($opname->status === 'DRAFT')
                 <a href="{{ route('opname.input', $opname->id) }}"
                    class="btn btn-primary">
                     <i class="fa fa-plus"></i> Input Aset
                 </a>
 
-                {{-- FINALISASI --}}
                 <form action="{{ route('opname.final', $opname->id) }}"
                       method="POST"
                       class="d-inline"
@@ -85,7 +83,6 @@
                 </form>
             @endif
 
-            {{-- EXPORT PDF --}}
             @if ($opname->status === 'FINAL')
                 <a href="{{ route('opname.pdf', $opname->id) }}"
                    target="_blank"
@@ -120,6 +117,7 @@
                                 <th>Status Fisik</th>
                                 <th>Lokasi</th>
                                 <th>Karyawan</th>
+                                <th>Departemen</th>
                                 <th>Catatan</th>
                                 <th>Petugas</th>
                             </tr>
@@ -137,6 +135,7 @@
                                     </td>
                                     <td>{{ $row->lokasi->nama_lokasi ?? '-' }}</td>
                                     <td>{{ $row->karyawan->nama ?? '-' }}</td>
+                                    <td>{{ $row->karyawan->departement ?? '-' }}</td>
                                     <td>{{ $row->catatan ?? '-' }}</td>
                                     <td>{{ $row->user->name }}</td>
                                 </tr>

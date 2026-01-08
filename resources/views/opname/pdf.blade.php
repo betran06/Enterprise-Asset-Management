@@ -87,13 +87,14 @@
 <table>
     <thead>
         <tr>
-            <th width="5%">No</th>
-            <th width="15%">Kode Aset</th>
-            <th width="20%">Nama Aset</th>
-            <th width="12%">Status Fisik</th>
-            <th width="15%">Lokasi</th>
-            <th width="15%">Karyawan</th>
-            <th width="18%">Catatan</th>
+            <th width="4%">No</th>
+            <th width="13%">Kode Aset</th>
+            <th width="18%">Nama Aset</th>
+            <th width="10%">Status Fisik</th>
+            <th width="14%">Lokasi</th>
+            <th width="14%">Karyawan</th>
+            <th width="14%">Departemen</th>
+            <th width="13%">Catatan</th>
         </tr>
     </thead>
     <tbody>
@@ -105,11 +106,12 @@
                 <td class="center">{{ $row->status_fisik }}</td>
                 <td>{{ $row->lokasi->nama_lokasi ?? '-' }}</td>
                 <td>{{ $row->karyawan->nama ?? '-' }}</td>
+                <td>{{ $row->karyawan->departement ?? '-' }}</td>
                 <td>{{ $row->catatan ?? '-' }}</td>
             </tr>
         @empty
             <tr>
-                <td colspan="7" class="center">Tidak ada data opname</td>
+                <td colspan="8" class="center">Tidak ada data opname</td>
             </tr>
         @endforelse
     </tbody>
