@@ -13,21 +13,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use App\Services\AuditTrailService;
 
 class AsetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $asets = Aset::with(['kategori', 'lokasi', 'karyawan'])->orderBy('id', 'desc')->get();
+        $asets = Aset::with(['kategori', 'lokasi', 'karyawan'])
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('aset.index', compact('asets'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $kategoris = KategoriAset::orderBy('nama_kategori')->get();
@@ -37,12 +35,6 @@ class AsetController extends Controller
         return view('aset.create', compact('kategoris', 'lokasis', 'karyawans'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * - kode_aset is provided by user (must be unique)
-     * - generate QR PNG after successful create (saved to storage/public/qrcode)
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -80,14 +72,22 @@ class AsetController extends Controller
                 'karyawan_id'    => $validated['karyawan_id'] ?? null,
             ]);
 
-            // Generate QR image and save under storage/app/public/qrcode/{kode_aset}.png
+            // AUDIT CREATE
+            AuditTrailService::log(
+                'CREATE',
+                'aset',
+                $aset->id,
+                'Menambahkan aset baru',
+                null,
+                $aset->toArray()
+            );
+
             $kode = $aset->kode_aset;
             $qrPath = 'qrcode/' . $kode . '.png';
 
             $writer = new PngWriter();
             $qrCode = new QrCode($kode);
             $qrImage = $writer->write($qrCode);
-
             Storage::disk('public')->put($qrPath, $qrImage->getString());
 
             DB::commit();
@@ -96,10 +96,10 @@ class AsetController extends Controller
         } catch (\Throwable $e) {
             DB::rollBack();
 
-            if (!empty($gambarPath) && Storage::disk('public')->exists($gambarPath)) {
+            if ($gambarPath && Storage::disk('public')->exists($gambarPath)) {
                 Storage::disk('public')->delete($gambarPath);
             }
-            if (!empty($qrPath) && Storage::disk('public')->exists($qrPath)) {
+            if ($qrPath && Storage::disk('public')->exists($qrPath)) {
                 Storage::disk('public')->delete($qrPath);
             }
 
@@ -107,12 +107,8 @@ class AsetController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Aset $aset)
     {
-        // ambil semua pelaporan untuk aset ini
         $pelaporans = Pelaporan::with([
                 'user',
                 'feedbacks.user',
@@ -121,18 +117,17 @@ class AsetController extends Controller
             ->where('aset_id', $aset->id)
             ->orderBy('created_at', 'desc')
             ->get();
-        
+
         $karyawans = Karyawan::orderBy('nama')->get();
 
         $qrPath = 'qrcode/' . $aset->kode_aset . '.png';
-        $qrUrl = Storage::disk('public')->exists($qrPath) ? Storage::url($qrPath) : null;
+        $qrUrl = Storage::disk('public')->exists($qrPath)
+            ? Storage::url($qrPath)
+            : null;
 
         return view('aset.show', compact('aset', 'pelaporans', 'karyawans', 'qrUrl'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Aset $aset)
     {
         $kategoris = KategoriAset::orderBy('nama_kategori')->get();
@@ -142,12 +137,6 @@ class AsetController extends Controller
         return view('aset.edit', compact('aset', 'kategoris', 'lokasis', 'karyawans'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * - If kode_aset is changed, ensure uniqueness and regenerate QR (replace file).
-     * - If gambar is replaced, delete old gambar file.
-     */
     public function update(Request $request, Aset $aset)
     {
         $validated = $request->validate([
@@ -167,7 +156,8 @@ class AsetController extends Controller
         $qrPath = null;
 
         try {
-            // Handle gambar replacement
+            $before = $aset->toArray();
+
             $newGambarPath = $aset->gambar;
             if ($request->hasFile('gambar')) {
                 if ($aset->gambar && Storage::disk('public')->exists($aset->gambar)) {
@@ -193,7 +183,16 @@ class AsetController extends Controller
                 'karyawan_id'    => $validated['karyawan_id'] ?? null,
             ]);
 
-            // If kode changed, regenerate QR and delete old QR
+            // AUDIT UPDATE
+            AuditTrailService::log(
+                'UPDATE',
+                'aset',
+                $aset->id,
+                'Mengubah data aset',
+                $before,
+                $aset->fresh()->toArray()
+            );
+
             if ($oldKode !== $newKode) {
                 $oldQrPath = 'qrcode/' . $oldKode . '.png';
                 if (Storage::disk('public')->exists($oldQrPath)) {
@@ -213,10 +212,10 @@ class AsetController extends Controller
         } catch (\Throwable $e) {
             DB::rollBack();
 
-            if (!empty($newGambarPath) && $newGambarPath !== $aset->gambar && Storage::disk('public')->exists($newGambarPath)) {
+            if ($newGambarPath && $newGambarPath !== $aset->gambar && Storage::disk('public')->exists($newGambarPath)) {
                 Storage::disk('public')->delete($newGambarPath);
             }
-            if (!empty($qrPath) && Storage::disk('public')->exists($qrPath)) {
+            if ($qrPath && Storage::disk('public')->exists($qrPath)) {
                 Storage::disk('public')->delete($qrPath);
             }
 
@@ -224,14 +223,11 @@ class AsetController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * - Deletes gambar and qrcode files from storage/public
-     */
     public function destroy(Aset $aset)
     {
         try {
+            $before = $aset->toArray();
+
             if ($aset->gambar && Storage::disk('public')->exists($aset->gambar)) {
                 Storage::disk('public')->delete($aset->gambar);
             }
@@ -243,27 +239,44 @@ class AsetController extends Controller
 
             $aset->delete();
 
+            // AUDIT DELETE
+            AuditTrailService::log(
+                'DELETE',
+                'aset',
+                $aset->id,
+                'Menghapus aset',
+                $before,
+                null
+            );
+
             return redirect()->route('aset.index')->with('success', 'Aset berhasil dihapus.');
         } catch (\Throwable $e) {
             return redirect()->route('aset.index')->with('error', 'Gagal menghapus aset.');
         }
     }
 
-    /**
-     * Update pengguna aset (digunakan oleh karyawan)
-     * Admin & Manager
-     */
     public function updatePengguna(Request $request, Aset $aset)
     {
         $request->validate([
             'karyawan_id' => 'nullable|exists:karyawan,id',
         ]);
 
+        $before = $aset->toArray();
+
         $aset->update([
             'karyawan_id' => $request->karyawan_id,
         ]);
 
+        // AUDIT UPDATE PENGGUNA
+        AuditTrailService::log(
+            'UPDATE',
+            'aset',
+            $aset->id,
+            'Mengubah pengguna aset',
+            $before,
+            $aset->fresh()->toArray()
+        );
+
         return back()->with('success', 'Pengguna aset berhasil diperbarui.');
     }
-
 }

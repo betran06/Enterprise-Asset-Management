@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
 
         // buat user admin (ubah data sesuai kebutuhan)
         $userId = DB::table('users')->insertGetId([
-            'name' => 'Admin Sistem',
+            'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'), // ganti kalau perlu
             'role_id' => $role->id,

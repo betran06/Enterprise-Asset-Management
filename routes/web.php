@@ -17,6 +17,7 @@ use App\Http\Controllers\Pelaporan\TambahPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanMasukController;
 use App\Http\Controllers\Pelaporan\CekPelaporanController;
 use App\Http\Controllers\Pelaporan\PelaporanSelesaiController;
+use App\Http\Controllers\AuditTrailController;
 
 
 // Route::get('/', function () {
@@ -48,7 +49,7 @@ Route::middleware('auth')->group(function () {
         //--opname--//
         Route::get('/opname/get-aset-by-qr', [OpnameDetailController::class, 'getAsetData'])->name('opname.getAsetData');
         Route::get('/opname', [OpnameController::class, 'index'])->name('opname.index');
-        Route::get('/opname/create', [OpnameController::class, 'create'])->name('opname.create');
+        Route::get('/create-opname', [OpnameController::class, 'create'])->name('opname.create');
         Route::post('/opname', [OpnameController::class, 'store'])->name('opname.store');
         Route::get('/opname/{opname}', [OpnameController::class, 'show'])->name('opname.show');
         Route::put('/opname/{opname}/final', [OpnameController::class, 'final'])->name('opname.final');
@@ -106,6 +107,10 @@ Route::middleware('auth')->group(function () {
         //--control user--//
         Route::resource('/users', UserController::class);
         Route::get('/user/status', [UserStatusController::class, 'index'])->name('users.status');
+
+        //--audit--//
+        Route::get('/audit', [AuditTrailController::class, 'index'])->name('audit.index');
+        Route::get('/audit/{auditLog}', [AuditTrailController::class, 'show'])->name('audit.show');
     });
 
 

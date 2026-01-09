@@ -7,15 +7,14 @@ use App\Models\Aset;
 use App\Models\PenyusutanBulanan;
 use App\Models\AsetPenyusutanSetting;
 use App\Services\PenyusutanService;
+use App\Services\AuditTrailService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-
 
 class PenyusutanController extends Controller
 {
     /**
      * Daftar aset + status penyusutan
-     * Admin & Manager & Staf (lihat saja)
      */
     public function index()
     {
@@ -34,17 +33,14 @@ class PenyusutanController extends Controller
      */
     public function show(Aset $aset)
     {
-        // eager load relasi
         $aset->load([
             'kategori',
             'lokasi',
             'penyusutanSetting.djpKelompok',
         ]);
 
-        // setting (boleh NULL)
         $setting = $aset->penyusutanSetting;
 
-        // riwayat penyusutan
         $riwayat = PenyusutanBulanan::where('aset_id', $aset->id)
             ->orderBy('periode', 'asc')
             ->get();
@@ -56,40 +52,55 @@ class PenyusutanController extends Controller
         ));
     }
 
-
     /**
      * Generate penyusutan bulanan (manual)
      * HANYA admin & manager
      */
     public function susutkan(
         Aset $aset,
-        PenyusutanService $penyusutanService
+        PenyusutanService $penyusutanService,
+        AuditTrailService $auditTrailService
     ) {
         // =========================
-        // Role check (double safety)
+        // Role check
         // =========================
         if (!auth()->user()->inRoles(['admin', 'manager'])) {
             abort(403, 'Tidak memiliki akses.');
         }
 
-        // Pastikan setting sudah ada
         if (!$aset->penyusutanSetting) {
             return back()->with('error', 'Setting penyusutan belum diisi.');
         }
 
         try {
-            $penyusutanService->generateBulanan(
+            // =========================
+            // GENERATE PENYUSUTAN
+            // =========================
+            $penyusutan = $penyusutanService->generateBulanan(
                 $aset,
                 $aset->penyusutanSetting,
                 auth()->id()
             );
+
+            // =========================
+            // AUDIT TRAIL
+            // =========================
+            $auditTrailService->log(
+                action: 'GENERATE_PENYUSUTAN',
+                table: 'penyusutan_bulanan',
+                rowId: $penyusutan->id,
+                message: 'Generate penyusutan aset ' . $aset->kode_aset .
+                         ' periode ' . $penyusutan->periode,
+                before: null,
+                after: $penyusutan->toArray()
+            );
+
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
 
         return back()->with('success', 'Penyusutan bulan ini berhasil dibuat.');
     }
-
 
     public function cetakPdf($asetId)
     {
@@ -102,7 +113,7 @@ class PenyusutanController extends Controller
             ->get();
 
         $data = [
-            'aset' => $setting->aset,
+            'aset'    => $setting->aset,
             'setting' => $setting,
             'riwayat' => $riwayat,
         ];
@@ -114,5 +125,4 @@ class PenyusutanController extends Controller
             'laporan-penyusutan-' . $setting->aset->kode_aset . '.pdf'
         );
     }
-
 }

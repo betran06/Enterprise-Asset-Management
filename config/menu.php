@@ -14,7 +14,7 @@ return [
         'items' => [
             ['label' => 'Daftar Akun', 'icon' => 'fa fa-users', 'route' => 'users.index', 'roles' => ['admin']],
             ['label' => 'Status Akun', 'icon' => 'fa fa-user-check', 'route' => 'users.status', 'roles' => ['admin']],
-            ['label' => 'Aktivitas Akun', 'icon' => 'fa fa-signal', 'route' => 'users.status', 'roles' => ['admin']],
+            ['label' => 'Aktivitas Akun', 'icon' => 'fa fa-signal', 'route' => 'audit.index', 'roles' => ['admin']],
         ],
     ],
 
