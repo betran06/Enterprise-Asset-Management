@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Pelaporan;
 use App\Models\Aset;
 use App\Models\Pelaporan;
 use App\Http\Controllers\Controller;
+use App\Services\AuditTrailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
 
 class TambahPelaporanController extends Controller
 {
@@ -62,8 +62,10 @@ class TambahPelaporanController extends Controller
     /**
      * Simpan pelaporan baru.
      */
-    public function store(Request $request)
-    {
+    public function store(
+        Request $request,
+        AuditTrailService $auditTrailService
+    ) {
         $validator = Validator::make($request->all(), [
             'judul'     => 'required|string|max:200',
             'deskripsi' => 'required|string',
@@ -79,13 +81,25 @@ class TambahPelaporanController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        Pelaporan::create([
+        $pelaporan = Pelaporan::create([
             'judul'     => $request->judul,
             'deskripsi' => $request->deskripsi,
             'aset_id'   => $request->aset_id,
             'user_id'   => Auth::id(),
             'status'    => 'Menunggu',
         ]);
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'CREATE_PELAPORAN',
+            table: 'pelaporan',
+            rowId: $pelaporan->id,
+            message: 'Membuat pelaporan aset ID #' . $pelaporan->aset_id,
+            before: null,
+            after: $pelaporan->toArray()
+        );
 
         return redirect()
             ->route('tambah-pelaporan.index')

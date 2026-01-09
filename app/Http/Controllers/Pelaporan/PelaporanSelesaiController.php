@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Pelaporan;
 use App\Models\Feedback;
 use App\Models\FeedbackReply;
+use App\Services\AuditTrailService;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PelaporanSelesaiController extends Controller
@@ -27,8 +28,10 @@ class PelaporanSelesaiController extends Controller
     /**
      * Cetak laporan pelaporan selesai (PDF)
      */
-    public function cetakLaporan($id)
-    {
+    public function cetakLaporan(
+        $id,
+        AuditTrailService $auditTrailService
+    ) {
         $pelaporan = Pelaporan::with(['aset'])->findOrFail($id);
 
         // feedback (1 pelaporan -> bisa ada / tidak)
@@ -38,6 +41,21 @@ class PelaporanSelesaiController extends Controller
         $feedbackReply = $feedback
             ? FeedbackReply::where('feedback_id', $feedback->id)->first()
             : null;
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'EXPORT_PELAPORAN_SELESAI_PDF',
+            table: 'pelaporan',
+            rowId: $pelaporan->id,
+            message: 'Mencetak laporan pelaporan selesai (PDF)',
+            before: null,
+            after: [
+                'pelaporan_id' => $pelaporan->id,
+                'status'       => $pelaporan->status,
+            ]
+        );
 
         $pdf = Pdf::loadView('pelaporan-selesai.cetak-laporan', [
             'pelaporan'     => $pelaporan,

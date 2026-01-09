@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Opname;
 use App\Http\Controllers\Controller;
 use App\Models\Opname;
 use App\Models\OpnameDetail;
+use App\Services\AuditTrailService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,15 +43,14 @@ class OpnameController extends Controller
      * SIMPAN OPNAME BARU
      * ===============================
      */
-    public function store(Request $request)
+    public function store(Request $request, AuditTrailService $auditTrailService)
     {
         $request->validate([
             'nama'           => 'required|string|max:100',
             'tanggal_opname' => 'required|date',
         ]);
 
-        // generate kode opname
-        $tanggal = Carbon::parse($request->tanggal_opname)->format('Ymd');
+        $tanggal   = Carbon::parse($request->tanggal_opname)->format('Ymd');
         $kodeOpname = 'OPN-' . $tanggal . '-' . strtoupper(Str::random(4));
 
         $opname = Opname::create([
@@ -60,6 +60,18 @@ class OpnameController extends Controller
             'status'         => 'DRAFT',
             'user_id'        => Auth::id(),
         ]);
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'CREATE_OPNAME',
+            table: 'opname',
+            rowId: $opname->id,
+            message: 'Membuat opname baru: ' . $opname->kode_opname,
+            before: null,
+            after: $opname->toArray()
+        );
 
         return redirect()
             ->route('opname.show', $opname->id)
@@ -88,7 +100,7 @@ class OpnameController extends Controller
      * FINALISASI OPNAME
      * ===============================
      */
-    public function finalisasi(Opname $opname)
+    public function finalisasi(Opname $opname, AuditTrailService $auditTrailService)
     {
         if ($opname->status === 'FINAL') {
             return back()->with('error', 'Opname sudah difinalisasi.');
@@ -98,16 +110,35 @@ class OpnameController extends Controller
             return back()->with('error', 'Belum ada data opname aset.');
         }
 
+        $before = $opname->toArray();
+
         $opname->update([
             'status' => 'FINAL',
         ]);
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'FINALIZE_OPNAME',
+            table: 'opname',
+            rowId: $opname->id,
+            message: 'Finalisasi opname: ' . $opname->kode_opname,
+            before: $before,
+            after: $opname->fresh()->toArray()
+        );
 
         return redirect()
             ->route('opname.index')
             ->with('success', 'Opname berhasil difinalisasi.');
     }
 
-    public function pdf(Opname $opname)
+    /**
+     * ===============================
+     * CETAK PDF OPNAME
+     * ===============================
+     */
+    public function pdf(Opname $opname, AuditTrailService $auditTrailService)
     {
         if ($opname->status !== 'FINAL') {
             return redirect()
@@ -125,7 +156,6 @@ class OpnameController extends Controller
             ->orderBy('id')
             ->get();
 
-        // Ringkasan
         $summary = [
             'ADA'        => $details->where('status_fisik', 'ADA')->count(),
             'RUSAK'      => $details->where('status_fisik', 'RUSAK')->count(),
@@ -133,6 +163,18 @@ class OpnameController extends Controller
             'HILANG'     => $details->where('status_fisik', 'HILANG')->count(),
             'TOTAL'      => $details->count(),
         ];
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'EXPORT_OPNAME_PDF',
+            table: 'opname',
+            rowId: $opname->id,
+            message: 'Export PDF opname: ' . $opname->kode_opname,
+            before: null,
+            after: null
+        );
 
         $pdf = Pdf::loadView('opname.pdf', [
             'opname'  => $opname,
@@ -144,5 +186,4 @@ class OpnameController extends Controller
             'laporan-opname-' . $opname->kode_opname . '.pdf'
         );
     }
-
 }

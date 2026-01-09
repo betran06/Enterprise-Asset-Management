@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Karyawan;
+use App\Services\AuditTrailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,7 +30,7 @@ class KaryawanController extends Controller
     /**
      * Simpan data karyawan baru
      */
-    public function store(Request $request)
+    public function store(Request $request, AuditTrailService $auditTrailService)
     {
         $validator = Validator::make($request->all(), [
             'kode_karyawan' => 'required|unique:karyawan,kode_karyawan',
@@ -46,14 +47,27 @@ class KaryawanController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        Karyawan::create([
+        $karyawan = Karyawan::create([
             'kode_karyawan' => $request->kode_karyawan,
             'nama'          => $request->nama,
             'departement'   => $request->departement,
             'jabatan'       => $request->jabatan,
         ]);
 
-        return redirect('/karyawan')->with('success', 'Data karyawan berhasil ditambahkan');
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'CREATE_KARYAWAN',
+            table: 'karyawan',
+            rowId: $karyawan->id,
+            message: 'Menambahkan karyawan: ' . $karyawan->nama,
+            before: null,
+            after: $karyawan->toArray()
+        );
+
+        return redirect('/karyawan')
+            ->with('success', 'Data karyawan berhasil ditambahkan');
     }
 
     /**
@@ -69,9 +83,13 @@ class KaryawanController extends Controller
     /**
      * Update data karyawan
      */
-    public function update(Request $request, $id)
-    {
+    public function update(
+        Request $request,
+        $id,
+        AuditTrailService $auditTrailService
+    ) {
         $karyawan = Karyawan::findOrFail($id);
+        $before = $karyawan->toArray();
 
         $validator = Validator::make($request->all(), [
             'kode_karyawan' => 'required|unique:karyawan,kode_karyawan,' . $karyawan->id,
@@ -95,18 +113,47 @@ class KaryawanController extends Controller
             'jabatan'       => $request->jabatan,
         ]);
 
-        return redirect('/karyawan')->with('success', 'Data karyawan berhasil diperbarui');
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'UPDATE_KARYAWAN',
+            table: 'karyawan',
+            rowId: $karyawan->id,
+            message: 'Memperbarui karyawan: ' . $karyawan->nama,
+            before: $before,
+            after: $karyawan->fresh()->toArray()
+        );
+
+        return redirect('/karyawan')
+            ->with('success', 'Data karyawan berhasil diperbarui');
     }
 
     /**
      * Hapus karyawan
      * Aset tidak ikut terhapus (karyawan_id jadi NULL)
      */
-    public function destroy($id)
+    public function destroy($id, AuditTrailService $auditTrailService)
     {
         $karyawan = Karyawan::findOrFail($id);
+        $before = $karyawan->toArray();
+        $nama = $karyawan->nama;
+
         $karyawan->delete();
 
-        return redirect()->back()->with('success', 'Data karyawan berhasil dihapus');
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'DELETE_KARYAWAN',
+            table: 'karyawan',
+            rowId: $before['id'],
+            message: 'Menghapus karyawan: ' . $nama,
+            before: $before,
+            after: null
+        );
+
+        return redirect()->back()
+            ->with('success', 'Data karyawan berhasil dihapus');
     }
 }

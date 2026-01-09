@@ -8,8 +8,8 @@ use App\Models\OpnameDetail;
 use App\Models\Aset;
 use App\Models\LokasiAset;
 use App\Models\Karyawan;
+use App\Services\AuditTrailService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class OpnameDetailController extends Controller
@@ -21,18 +21,15 @@ class OpnameDetailController extends Controller
      */
     public function create(Opname $opname)
     {
-        // Cegah input jika FINAL
         if ($opname->status === 'FINAL') {
             return redirect()
                 ->route('opname.show', $opname->id)
                 ->with('error', 'Opname sudah difinalisasi.');
         }
 
-        // Dropdown pendukung
         $lokasiAsets = LokasiAset::orderBy('nama_lokasi')->get();
         $karyawans   = Karyawan::orderBy('nama')->get();
 
-        // Data aset yang sudah diinput
         $details = OpnameDetail::with(['aset'])
             ->where('opname_id', $opname->id)
             ->orderBy('id', 'DESC')
@@ -55,7 +52,6 @@ class OpnameDetailController extends Controller
     {
         $kode = $request->query('kode');
 
-        // Default response
         $response = [
             'found'       => false,
             'id'          => null,
@@ -98,8 +94,11 @@ class OpnameDetailController extends Controller
      * SIMPAN HASIL OPNAME
      * ===============================
      */
-    public function store(Request $request, Opname $opname)
-    {
+    public function store(
+        Request $request,
+        Opname $opname,
+        AuditTrailService $auditTrailService
+    ) {
         if ($opname->status === 'FINAL') {
             return redirect()
                 ->route('opname.show', $opname->id)
@@ -114,7 +113,6 @@ class OpnameDetailController extends Controller
             'catatan'      => 'nullable|string|max:500',
         ]);
 
-        // Cegah duplikat aset dalam 1 opname
         $exists = OpnameDetail::where('opname_id', $opname->id)
             ->where('aset_id', $request->aset_id)
             ->exists();
@@ -123,7 +121,7 @@ class OpnameDetailController extends Controller
             return back()->with('error', 'Aset ini sudah diinput pada opname ini.');
         }
 
-        OpnameDetail::create([
+        $detail = OpnameDetail::create([
             'opname_id'    => $opname->id,
             'aset_id'      => $request->aset_id,
             'status_fisik' => $request->status_fisik,
@@ -132,6 +130,18 @@ class OpnameDetailController extends Controller
             'catatan'      => $request->catatan,
             'user_id'      => Auth::id(),
         ]);
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'CREATE_OPNAME_DETAIL',
+            table: 'opname_detail',
+            rowId: $detail->id,
+            message: 'Input hasil opname aset: ' . $detail->aset->kode_aset,
+            before: null,
+            after: $detail->toArray()
+        );
 
         return redirect()
             ->route('opname.input', $opname->id)
@@ -143,8 +153,11 @@ class OpnameDetailController extends Controller
      * HAPUS DETAIL OPNAME
      * ===============================
      */
-    public function destroy(Opname $opname, OpnameDetail $detail)
-    {
+    public function destroy(
+        Opname $opname,
+        OpnameDetail $detail,
+        AuditTrailService $auditTrailService
+    ) {
         if ($opname->status === 'FINAL') {
             return back()->with('error', 'Opname sudah difinalisasi.');
         }
@@ -153,26 +166,38 @@ class OpnameDetailController extends Controller
             abort(403);
         }
 
+        $before = $detail->toArray();
+        $kodeAset = $detail->aset->kode_aset ?? '-';
+
         $detail->delete();
+
+        // =========================
+        // AUDIT TRAIL
+        // =========================
+        $auditTrailService->log(
+            action: 'DELETE_OPNAME_DETAIL',
+            table: 'opname_detail',
+            rowId: $before['id'],
+            message: 'Hapus hasil opname aset: ' . $kodeAset,
+            before: $before,
+            after: null
+        );
 
         return back()->with('success', 'Data opname berhasil dihapus.');
     }
 
     public function final(Opname $opname)
     {
-        // Cegah final ulang
         if ($opname->status === 'FINAL') {
             return back()->with('error', 'Opname sudah difinalisasi.');
         }
 
-        // Pastikan ada minimal 1 aset
         $totalDetail = OpnameDetail::where('opname_id', $opname->id)->count();
 
         if ($totalDetail === 0) {
             return back()->with('error', 'Tidak bisa finalisasi. Belum ada aset yang diopname.');
         }
 
-        // Update status opname
         $opname->update([
             'status' => 'FINAL',
         ]);
