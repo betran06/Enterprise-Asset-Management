@@ -39,7 +39,7 @@ return [
     [
         'header' => 'Nilai Penyusutan',
         'items' => [
-            ['label' => 'Daftar Penyusutan', 'icon'  => 'fa fa-chart-line', 'route' => 'penyusutan.index', 'roles' => ['admin', 'manager']],
+            ['label' => 'Daftar Penyusutan', 'icon'  => 'fa fa-chart-line', 'route' => 'penyusutan.index', 'roles' => ['admin','staf', 'manager']],
             ['label' => 'Setting Penyusutan', 'icon'  => 'fa fa-sliders', 'route' => 'setting.index', 'roles' => ['admin', 'manager']],
         ],
     ],
@@ -54,12 +54,5 @@ return [
         ],
     ],
 
-    // [
-    //     'header' => 'Laporan',
-    //     'items' => [
-    //         ['label' => 'Laporan Aset', 'icon' => 'fa fa-print', 'route' => 'laporan.inventaris', 'roles' => ['admin','manager']],
-    //         ['label' => 'Laporan Perbaikan', 'icon' => 'fa fa-file-pdf', 'route' => 'laporan.perbaikan', 'roles' => ['admin']],
-    //     ],
-    // ],
 
 ];

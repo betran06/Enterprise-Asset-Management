@@ -26,7 +26,6 @@
 <div class="section-body">
     <div class="row">
 
-        {{-- ================= LEFT: GAMBAR + QR ================= --}}
         <div class="col-md-4">
             <div class="card mb-3">
                 <div class="card-body text-center">
@@ -55,7 +54,6 @@
             </div>
         </div>
 
-        {{-- ================= RIGHT: DETAIL ================= --}}
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
@@ -84,7 +82,6 @@
                             <td>{{ optional($aset->lokasi)->nama_lokasi ?? '-' }}</td>
                         </tr>
 
-                        {{-- ===== STATUS PENYUSUTAN ===== --}}
                         <tr>
                             <td><b>Status Penyusutan</b></td><td>:</td>
                             <td>
@@ -98,7 +95,6 @@
                             </td>
                         </tr>
 
-                        {{-- ===== INFO DISPOSAL (JIKA ADA) ===== --}}
                         @if ($aset->penyusutanSetting && $aset->penyusutanSetting->is_disposed)
                             <tr>
                                 <td><b>Alasan Disposal</b></td><td>:</td>
@@ -122,7 +118,6 @@
                         </tr>
                     </table>
 
-                    {{-- ================= FORM UPDATE PENGGUNA ================= --}}
                     @if (!$aset->penyusutanSetting || !$aset->penyusutanSetting->is_disposed)
                         <hr>
                         <h6 class="mb-3"><b>Atur Pengguna Aset</b></h6>
@@ -158,7 +153,6 @@
                     @endif
                 </div>
 
-                {{-- ================= HISTORY PELAPORAN ================= --}}
                 <hr>
                 <div class="card-body">
                     <div class="section-title mt-0">History Pelaporan Aset</div>

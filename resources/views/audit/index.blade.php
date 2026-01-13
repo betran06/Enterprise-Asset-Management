@@ -2,12 +2,11 @@
 
 @section('content')
 <div class="section-header">
-    <h1>Audit Trail</h1>
+    <h1>Aktivitas Sistem</h1>
 </div>
 
 <div class="section-body">
 
-    {{-- FILTER --}}
     <div class="card mb-3">
         <div class="card-body">
             <form method="GET" class="form-inline">
@@ -34,7 +33,6 @@
         </div>
     </div>
 
-    {{-- TABLE --}}
     <div class="card card-primary">
         <div class="card-body table-responsive">
             <table class="table table-bordered table-striped">

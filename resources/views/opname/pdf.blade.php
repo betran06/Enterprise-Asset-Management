@@ -43,16 +43,10 @@
 </head>
 <body>
 
-{{-- ======================
-    HEADER
-====================== --}}
 <h2>LAPORAN OPNAME ASET</h2>
 <h3>Sistem Inventaris Aset</h3>
 <hr>
 
-{{-- ======================
-    INFO OPNAME
-====================== --}}
 <table class="no-border">
     <tr>
         <td width="30%">Kode Opname</td>
@@ -81,9 +75,6 @@
     </tr>
 </table>
 
-{{-- ======================
-    DAFTAR ASET
-====================== --}}
 <table>
     <thead>
         <tr>
@@ -119,9 +110,6 @@
 
 <br><br>
 
-{{-- ======================
-    FOOTER
-====================== --}}
 <table class="no-border">
     <tr>
         <td width="60%"></td>

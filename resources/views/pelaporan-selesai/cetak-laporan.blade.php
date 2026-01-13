@@ -75,7 +75,6 @@
 
     <hr>
 
-    {{-- DETAIL PELAPORAN --}}
     <table>
         <tr>
             <td class="label">Judul Pelaporan</td>
@@ -126,7 +125,6 @@
 
     <hr>
 
-    {{-- ANALISIS & FEEDBACK --}}
     <div class="section-title">Analisis Perbaikan</div>
     <table>
         <tr>

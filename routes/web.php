@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('/aset', AsetController::class);
         Route::put('/aset/{aset}/pengguna', [AsetController::class, 'updatePengguna'])->name('aset.updatePengguna');
         Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
+
+        //--cek-pelaporan--//
+        Route::get('/cek-pelaporan', [CekPelaporanController::class, 'index'])->name('cek-pelaporan.index');
+        Route::get('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'detail']);
+        Route::post('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'store']);
         
         //--penyusutsan--//
         Route::get('/penyusutan', [PenyusutanController::class, 'index'])->name('penyusutan.index');
@@ -42,10 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/penyusutan/{aset}/export-pdf', [PenyusutanController::class, 'cetakPdf'])->name('penyusutan.export-pdf');
         Route::post('/penyusutan/{aset}/susutkan', [PenyusutanController::class, 'susutkan'])->name('penyusutan.susutkan');
         
-        //--disposal--//
-        Route::get('/penyusutan/{aset}/disposal', [PenyusutanDisposalController::class, 'create'])->name('penyusutan.dispose.form');
-        Route::put('/penyusutan/{aset}/disposal', [PenyusutanDisposalController::class, 'store'])->name('penyusutan.dispose.store');
-
+        
         //--opname--//
         Route::get('/opname/get-aset-by-qr', [OpnameDetailController::class, 'getAsetData'])->name('opname.getAsetData');
         Route::get('/opname', [OpnameController::class, 'index'])->name('opname.index');
@@ -77,11 +79,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/pelaporan-masuk/detail/{id}/perbaiki', [PelaporanMasukController::class, 'perbaiki']);
         Route::put('/pelaporan-masuk/detail/{id}/selesai', [PelaporanMasukController::class, 'selesai']);
 
-        //--cek-pelaporan--//
-        Route::get('/cek-pelaporan', [CekPelaporanController::class, 'index'])->name('cek-pelaporan.index');
-        Route::get('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'detail']);
-        Route::post('/cek-pelaporan/detail/{pelaporan}', [CekPelaporanController::class, 'store']);
-
         //--pelaporan selesai--//
         Route::get('/pelaporan-selesai', [PelaporanSelesaiController::class, 'index'])->name('pelaporan-selesai.index');
         Route::get('/pelaporan-selesai/cetak-laporan/{id}', [PelaporanSelesaiController::class, 'cetakLaporan']);
@@ -99,6 +96,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/setting-penyusutan', [PenyusutanSettingController::class, 'store'])->name('setting.store');
         Route::get('/setting/{aset}/edit', [PenyusutanSettingController::class, 'edit'])->name('setting.edit');
         Route::put('/setting/{aset}', [PenyusutanSettingController::class, 'update'])->name('setting.update');
+
+        //--disposal--//
+        Route::get('/penyusutan/{aset}/disposal', [PenyusutanDisposalController::class, 'create'])->name('penyusutan.dispose.form');
+        Route::put('/penyusutan/{aset}/disposal', [PenyusutanDisposalController::class, 'store'])->name('penyusutan.dispose.store');
         
     });
 

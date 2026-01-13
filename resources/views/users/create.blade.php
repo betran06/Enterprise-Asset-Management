@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="section-header">
-        <h1>Tambah User</h1>
+        <h1>Tambah Akun</h1>
         <div class="ml-auto">
             <a href="{{ route('users.index') }}" class="btn btn-secondary">
                 <i class="fa fa-arrow-left"></i> Kembali

@@ -21,10 +21,6 @@
     @endif
 
     <div class="row">
-
-        {{-- ======================
-            SCAN QR CODE
-        ======================= --}}
         <div class="col-lg-4">
             <div class="card card-primary">
                 <div class="card-header">
@@ -38,7 +34,6 @@
 
                     <hr>
 
-                    {{-- Manual fallback --}}
                     <div class="form-group">
                         <label>Input Manual Kode Aset</label>
                         <div class="input-group">
@@ -57,9 +52,6 @@
             </div>
         </div>
 
-        {{-- ======================
-            FORM INPUT
-        ======================= --}}
         <div class="col-lg-8">
             <div class="card card-warning">
                 <div class="card-header">
@@ -145,9 +137,6 @@
         </div>
     </div>
 
-    {{-- ======================
-        DAFTAR ASET TEROPNAME
-    ======================= --}}
     <div class="card card-primary mt-3">
         <div class="card-header">
             <h4>Daftar Aset Teropname</h4>

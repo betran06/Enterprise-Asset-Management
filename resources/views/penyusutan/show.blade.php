@@ -111,16 +111,17 @@
         <div class="card-body">
 
             {{-- TOMBOL SUSUTKAN --}}
-            @if ($aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)
+            @if (auth()->user()->inRoles(['admin','manager']) && $aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)
                 <form action="{{ route('penyusutan.susutkan', $aset->id) }}"
-                      method="POST"
-                      class="d-inline">
+                    method="POST"
+                    class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-warning">
                         <i class="fa fa-calculator"></i> Susutkan Bulan Ini
                     </button>
                 </form>
             @endif
+
 
             {{-- TOMBOL DISPOSAL --}}
             @if ($aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)

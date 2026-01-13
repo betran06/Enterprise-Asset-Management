@@ -25,7 +25,6 @@
         @endif
 
         <div class="row">
-            {{-- DETAIL ASET --}}
             <div class="col-lg-8">
                 <div class="card card-primary">
                     <div class="card-header">
@@ -110,7 +109,6 @@
                 </div>
             </div>
 
-            {{-- FEEDBACK --}}
             <div class="col-lg-4">
                 <div class="card card-primary">
                     <div class="card-header">

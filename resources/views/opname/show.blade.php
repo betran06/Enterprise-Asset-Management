@@ -20,9 +20,6 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    {{-- ======================
-        INFO OPNAME
-    ======================= --}}
     <div class="card card-primary mb-3">
         <div class="card-header">
             <h4>Informasi Opname</h4>
@@ -59,9 +56,6 @@
         </div>
     </div>
 
-    {{-- ======================
-        AKSI OPNAME
-    ======================= --}}
     <div class="card mb-3">
         <div class="card-body">
 
@@ -94,9 +88,7 @@
         </div>
     </div>
 
-    {{-- ======================
-        DAFTAR ASET OPNAME
-    ======================= --}}
+
     <div class="card card-primary">
         <div class="card-header">
             <h4>Hasil Opname Aset</h4>

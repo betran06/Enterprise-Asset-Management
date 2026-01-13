@@ -5,7 +5,7 @@
         <h1>Manajemen User</h1>
         <div class="ml-auto">
             <a href="{{ route('users.create') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Tambah User
+                <i class="fa fa-plus"></i> Tambah Akun
             </a>
         </div>
     </div>

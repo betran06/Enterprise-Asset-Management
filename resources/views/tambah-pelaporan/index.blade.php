@@ -14,7 +14,6 @@
         @endif
 
         <div class="row">
-            {{-- Scanner --}}
             <div class="col-lg-4">
                 <div class="card card-primary">
                     <div class="card-header">Scan QR Code</div>
@@ -75,7 +74,6 @@
                                 @error('deskripsi') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 
-                            {{-- fallback manual kode jika QR tidak terbaca --}}
                             <div class="form-group">
                                 <label>Masukkan Kode Aset (Manual jika perlu)</label>
                                 <div class="input-group">

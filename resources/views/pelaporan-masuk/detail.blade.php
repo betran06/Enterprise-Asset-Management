@@ -24,7 +24,6 @@
     @endif
 
     <div class="row">
-        {{-- DETAIL ASET --}}
         <div class="col-lg-8">
             <div class="card card-primary">
                 <div class="card-header">Pelaporan Inventaris</div>
@@ -87,13 +86,11 @@
             </div>
         </div>
 
-        {{-- AKSI --}}
         <div class="col-lg-4">
             <div class="card card-primary">
                 <div class="card-header">Aksi</div>
                 <div class="card-body">
 
-                    {{-- MENUNGGU --}}
                     @if ($pelaporan->status === 'Menunggu')
                         <form id="perbaikiForm{{ $pelaporan->id }}"
                               action="/pelaporan-masuk/detail/{{ $pelaporan->id }}/perbaiki"
@@ -107,7 +104,6 @@
                             </button>
                         </form>
 
-                    {{-- PROSES PENGECEKAN --}}
                     @elseif ($pelaporan->status === 'Proses Pengecekan')
                         <form id="selesaiForm{{ $pelaporan->id }}"
                               action="/pelaporan-masuk/detail/{{ $pelaporan->id }}/selesai"
@@ -127,7 +123,6 @@
                             </button>
                         </form>
 
-                    {{-- SELESAI --}}
                     @elseif ($pelaporan->status === 'Selesai')
                         @if ($feedback)
                             <label>Analisis Admin</label>

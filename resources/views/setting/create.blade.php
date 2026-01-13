@@ -26,10 +26,6 @@
         <div class="card-body">
             <form action="{{ route('setting.store') }}" method="POST">
                 @csrf
-
-                {{-- ===============================
-                    PILIH ASET
-                ================================ --}}
                 <div class="form-group">
                     <label>Aset <span class="text-danger">*</span></label>
                     <select name="aset_id" class="form-control" required>
@@ -43,9 +39,6 @@
                     </select>
                 </div>
 
-                {{-- ===============================
-                    METODE & DJP
-                ================================ --}}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -72,9 +65,6 @@
                     </div>
                 </div>
 
-                {{-- ===============================
-                    NILAI ASET
-                ================================ --}}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -101,9 +91,6 @@
                     </div>
                 </div>
 
-                {{-- ===============================
-                    TANGGAL MULAI
-                ================================ --}}
                 <div class="form-group">
                     <label>Tanggal Mulai Pakai <span class="text-danger">*</span></label>
                     <input type="date" name="tgl_mulai_pakai"
@@ -114,9 +101,6 @@
                     </small>
                 </div>
 
-                {{-- ===============================
-                    SUBMIT
-                ================================ --}}
                 <div class="text-right">
                     <button class="btn btn-primary">
                         <i class="fa fa-save"></i> Simpan Setting

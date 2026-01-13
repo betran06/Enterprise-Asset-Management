@@ -28,18 +28,11 @@
                 @csrf
                 @method('PUT')
 
-                {{-- ===============================
-                    INFO ASET (READ ONLY)
-                ================================ --}}
                 <div class="form-group">
                     <label>Aset</label>
                     <input type="text" class="form-control" disabled
                         value="{{ $setting->aset->kode_aset }} - {{ $setting->aset->nama_aset }}">
                 </div>
-
-                {{-- ===============================
-                    METODE & DJP
-                ================================ --}}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -72,9 +65,6 @@
                     </div>
                 </div>
 
-                {{-- ===============================
-                    NILAI ASET
-                ================================ --}}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -104,9 +94,6 @@
                     </div>
                 </div>
 
-                {{-- ===============================
-                    TANGGAL MULAI
-                ================================ --}}
                 <div class="form-group">
                     <label>Tanggal Mulai Pakai <span class="text-danger">*</span></label>
                     <input type="date" name="tgl_mulai_pakai"
@@ -114,9 +101,6 @@
                         class="form-control" required>
                 </div>
 
-                {{-- ===============================
-                    STATUS ASET
-                ================================ --}}
                 <div class="form-group">
                     <label>Status Aset</label>
                     <select name="is_disposed" class="form-control">
@@ -125,9 +109,6 @@
                     </select>
                 </div>
 
-                {{-- ===============================
-                    SUBMIT
-                ================================ --}}
                 <div class="text-right">
                     <button class="btn btn-warning">
                         <i class="fa fa-save"></i> Update Setting

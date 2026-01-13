@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="section-header">
-    <h1>Status User</h1>
+    <h1>Status Akun</h1>
 </div>
 
 <div class="section-body">
