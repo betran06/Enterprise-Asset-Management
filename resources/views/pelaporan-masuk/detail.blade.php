@@ -111,7 +111,7 @@
                             @method('PUT')
                             @csrf
                             <div class="form-group">
-                                <label>Analisis Pengecekan</label>
+                                <label>Analisis Pelaporan</label>
                                 <textarea name="analisis_keputusan"
                                           class="form-control"
                                           rows="5" required></textarea>

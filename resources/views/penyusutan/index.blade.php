@@ -95,7 +95,6 @@
     </div>
 </div>
 
-{{-- Datatable --}}
 <script>
     $(document).ready(function () {
         $('#table-penyusutan').DataTable();

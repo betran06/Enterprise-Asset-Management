@@ -11,10 +11,6 @@
 </div>
 
 <div class="section-body">
-
-    {{-- ===============================
-        INFORMASI ASET
-    ================================ --}}
     <div class="card card-primary mb-3">
         <div class="card-header">
             <h4>Informasi Aset</h4>
@@ -41,9 +37,6 @@
         </div>
     </div>
 
-    {{-- ===============================
-        SETTING PENYUSUTAN
-    ================================ --}}
     <div class="card card-warning mb-3">
         <div class="card-header">
             <h4>Setting Penyusutan</h4>
@@ -82,9 +75,6 @@
         </div>
     </div>
 
-    {{-- ===============================
-        INFO DISPOSAL (JIKA ADA)
-    ================================ --}}
     @if ($aset->penyusutanSetting && $aset->penyusutanSetting->is_disposed)
         <div class="alert alert-danger mb-3">
             <h6 class="mb-2">
@@ -104,13 +94,9 @@
     @endif
 
 
-    {{-- ===============================
-        AKSI PENYUSUTAN
-    ================================ --}}
     <div class="card mb-3">
         <div class="card-body">
 
-            {{-- TOMBOL SUSUTKAN --}}
             @if (auth()->user()->inRoles(['admin','manager']) && $aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)
                 <form action="{{ route('penyusutan.susutkan', $aset->id) }}"
                     method="POST"
@@ -123,7 +109,6 @@
             @endif
 
 
-            {{-- TOMBOL DISPOSAL --}}
             @if ($aset->penyusutanSetting && !$aset->penyusutanSetting->is_disposed)
                 <a href="{{ route('penyusutan.dispose.form', $aset->id) }}"
                    class="btn btn-danger ml-2">
@@ -134,9 +119,6 @@
         </div>
     </div>
 
-    {{-- ===============================
-        RIWAYAT PENYUSUTAN
-    ================================ --}}
     <div class="card card-primary">
         <div class="card-header d-flex align-items-center">
             <h4 class="mb-0">Riwayat Penyusutan Bulanan</h4>

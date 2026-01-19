@@ -19,7 +19,6 @@
                             @csrf
                             @method('PUT')
 
-                            {{-- Nama --}}
                             <div class="form-group">
                                 <label>Nama Lengkap <span class="text-danger">*</span></label>
                                 <input type="text"
@@ -32,7 +31,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Email --}}
                             <div class="form-group">
                                 <label>Email <span class="text-danger">*</span></label>
                                 <input type="email"
@@ -45,7 +43,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Role --}}
                             <div class="form-group">
                                 <label>Role <span class="text-danger">*</span></label>
                                 <select name="role_id" class="form-control" required>
@@ -63,7 +60,6 @@
 
                             <hr>
 
-                            {{-- Password (opsional) --}}
                             <div class="form-group">
                                 <label>Password Baru</label>
                                 <input type="password"
@@ -83,7 +79,6 @@
                                        placeholder="Ulangi password baru">
                             </div>
 
-                            {{-- Submit --}}
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"></i> Update User
@@ -95,7 +90,6 @@
                 </div>
             </div>
 
-            {{-- Info --}}
             <div class="col-lg-4">
                 <div class="card card-warning">
                     <div class="card-body">

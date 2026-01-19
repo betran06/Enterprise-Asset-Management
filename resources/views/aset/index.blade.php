@@ -78,7 +78,6 @@
         </div>
     </div>
 
-    <!-- Datatables Jquery -->
     <script>
         $(document).ready(function() {
             $('#table_id').DataTable();

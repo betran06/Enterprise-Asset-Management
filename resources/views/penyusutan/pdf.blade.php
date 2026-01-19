@@ -39,10 +39,6 @@
 <h3>Sistem Informasi Inventaris Aset</h3>
 
 <hr>
-
-{{-- =====================
-    INFO ASET
-===================== --}}
 <table class="no-border">
     <tr>
         <td width="30%">Kode Aset</td>
@@ -66,9 +62,6 @@
     </tr>
 </table>
 
-{{-- =====================
-    PARAMETER PENYUSUTAN
-===================== --}}
 <h4>Parameter Penyusutan Aset</h4>
 <table>
     <tr>
@@ -103,9 +96,6 @@
     </tr>
 </table>
 
-{{-- =====================
-    RIWAYAT PENYUSUTAN
-===================== --}}
 <h4>Riwayat Penyusutan Bulanan</h4>
 <table>
     <thead>

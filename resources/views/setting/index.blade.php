@@ -11,8 +11,6 @@
 </div>
 
 <div class="section-body">
-
-    {{-- Flash Message --}}
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -78,7 +76,6 @@
 
 </div>
 
-{{-- Datatable --}}
 <script>
     $(document).ready(function () {
         $('#table-setting').DataTable();

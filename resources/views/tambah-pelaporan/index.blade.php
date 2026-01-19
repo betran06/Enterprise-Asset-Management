@@ -92,19 +92,13 @@
         </div>
     </div>
 
-    <!-- html5-qrcode -->
     <script src="{{ asset('assets/js/page/html5-qrcode.min.js') }}"></script>
 
 
     <script>
-        // Simple, robust scanner -> GET request to /get-data-aset
-        // Make sure route GET /get-data-aset points to TambahPelaporanController@getDataAset
-
-        // lock to avoid spamming server
         let isProcessingScan = false;
         const debounceMs = 800; // minimal delay between requests
 
-        // helpers
         function clearFields() {
             document.getElementById('aset_id').value = '';
             document.getElementById('nama_aset').value = '';
@@ -123,17 +117,12 @@
             document.getElementById('lokasi').value = data.lokasi ?? '';
         }
 
-        // AJAX GET to fetch aset by kode
         function fetchAsetByCode(code) {
             if (!code) return;
-
-            // don't send if another is processing
             if (isProcessingScan) return;
-
             isProcessingScan = true;
             document.getElementById('scan-status').innerText = 'Memeriksa data aset...';
 
-            // use GET so CSRF/session less likely to block in tracking-protected browsers
             fetch('/get-data-aset?result=' + encodeURIComponent(code), {
                 method: 'GET',
                 credentials: 'same-origin' // same origin cookies if available
@@ -163,12 +152,10 @@
                 }
             })
             .finally(() => {
-                // allow next scan after debounce
                 setTimeout(() => { isProcessingScan = false; }, debounceMs);
             });
         }
 
-        // html5-qrcode setup
         const scanner = new Html5QrcodeScanner(
             "reader",
             { fps: 8, qrbox: { width: 250, height: 250 } },
@@ -176,25 +163,20 @@
         );
 
         function onScanSuccess(decodedText, decodedResult) {
-            // call fetch (GET)
             fetchAsetByCode(decodedText);
         }
 
         function onScanFailure(error) {
-            // ignore small errors, keep scanning
         }
 
-        // render scanner
         scanner.render(onScanSuccess, onScanFailure);
 
-        // manual fill (fallback)
         document.getElementById('btn-fill-manual').addEventListener('click', () => {
             const code = document.getElementById('manual_kode').value.trim();
             if (!code) return alert('Masukkan kode aset terlebih dahulu.');
             fetchAsetByCode(code);
         });
 
-        // init
         clearFields();
     </script>
 @endsection

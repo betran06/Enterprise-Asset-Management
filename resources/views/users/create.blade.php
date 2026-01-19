@@ -18,7 +18,6 @@
                         <form action="{{ route('users.store') }}" method="POST">
                             @csrf
 
-                            {{-- Nama --}}
                             <div class="form-group">
                                 <label>Nama Lengkap <span class="text-danger">*</span></label>
                                 <input type="text"
@@ -31,7 +30,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Email --}}
                             <div class="form-group">
                                 <label>Email <span class="text-danger">*</span></label>
                                 <input type="email"
@@ -44,7 +42,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Password --}}
                             <div class="form-group">
                                 <label>Password <span class="text-danger">*</span></label>
                                 <input type="password"
@@ -56,7 +53,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Konfirmasi Password --}}
                             <div class="form-group">
                                 <label>Konfirmasi Password <span class="text-danger">*</span></label>
                                 <input type="password"
@@ -65,7 +61,6 @@
                                        required>
                             </div>
 
-                            {{-- Role --}}
                             <div class="form-group">
                                 <label>Role <span class="text-danger">*</span></label>
                                 <select name="role_id" class="form-control" required>
@@ -82,7 +77,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Submit --}}
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"></i> Simpan User
@@ -94,7 +88,6 @@
                 </div>
             </div>
 
-            {{-- Info --}}
             <div class="col-lg-4">
                 <div class="card card-warning">
                     <div class="card-body">

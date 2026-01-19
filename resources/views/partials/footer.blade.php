@@ -9,4 +9,3 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
-<!-- By : <a href="https://www.youtube.com/@kaseps8304/videos">Kasep_Code</a> -->

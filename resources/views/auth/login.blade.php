@@ -6,7 +6,7 @@
         <div class="container-fluid h-100">
             <div class="row h-100">
                 <div class="col-md-6 d-none d-md-block p-0"
-                    style="background-image: url('{{ asset('assets/img/bg-login.jpg') }}');
+                    style="background-image: url('{{ asset('assets/img/bg-auth1.png') }}');
                            background-size: cover;
                            background-position: center;
                            min-height: 100vh;">
@@ -14,13 +14,11 @@
                 <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
 
                     <div style="width: 100%; max-width: 420px;">
-                        <!-- Judul -->
                         <div class="text-center mb-4">
                             <h3 class="custom-title">Sistem Inventaris</h3>
                             <p class="custom-subtitle">Pelaporan Barang Menggunakan QR CODE</p>
                         </div>
 
-                        <!-- CARD LOGIN -->
                         <div class="card card-primary shadow">
                             <div class="card-header">
                                 <h4>Silakan login untuk melanjutkan</h4>

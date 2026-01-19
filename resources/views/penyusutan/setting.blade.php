@@ -21,7 +21,6 @@
             <form action="{{ route('setting.store', $aset->id) }}" method="POST">
                 @csrf
 
-                {{-- METODE --}}
                 <div class="form-group">
                     <label>Metode Penyusutan <span class="text-danger">*</span></label>
                     <select name="metode" class="form-control" required>
@@ -31,7 +30,6 @@
                     </select>
                 </div>
 
-                {{-- DJP --}}
                 <div class="form-group">
                     <label>Kelompok DJP <span class="text-danger">*</span></label>
                     <select name="djp_kelompok_id" class="form-control" required>
@@ -43,19 +41,16 @@
                     </select>
                 </div>
 
-                {{-- HARGA --}}
                 <div class="form-group">
                     <label>Harga Perolehan <span class="text-danger">*</span></label>
                     <input type="number" name="harga_perolehan" class="form-control" required>
                 </div>
 
-                {{-- NILAI SISA --}}
                 <div class="form-group">
                     <label>Nilai Sisa (Opsional)</label>
                     <input type="number" name="nilai_sisa" class="form-control">
                 </div>
 
-                {{-- TANGGAL --}}
                 <div class="form-group">
                     <label>Tanggal Mulai Pakai <span class="text-danger">*</span></label>
                     <input type="date" name="tgl_mulai_pakai" class="form-control" required>
