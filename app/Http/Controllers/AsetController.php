@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\AuditTrailService;
 
 class AsetController extends Controller
@@ -278,5 +279,17 @@ class AsetController extends Controller
         );
 
         return back()->with('success', 'Pengguna aset berhasil diperbarui.');
+    }
+
+    //cetak pdf
+    public function exportPdf()
+    {
+        $asets = Aset::orderBy('kode_aset')->get();
+
+        $pdf = Pdf::loadView('aset.pdf', [
+            'asets' => $asets,
+        ])->setPaper('A4', 'portrait');
+
+        return $pdf->stream('daftar-aset.pdf');
     }
 }

@@ -4,7 +4,17 @@
     <div class="section-header">
         <h1>Data Aset</h1>
         <div class="ml-auto">
-            <a href="{{ route('aset.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Aset</a>
+            {{-- EXPORT PDF --}}
+            <a href="{{ route('aset.export.pdf') }}"
+               target="_blank"
+               class="btn btn-danger mr-2">
+                <i class="fa fa-file-pdf"></i> Export PDF
+            </a>
+
+            {{-- TAMBAH ASET --}}
+            <a href="{{ route('aset.create') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Tambah Aset
+            </a>
         </div>
     </div>
 
@@ -25,43 +35,62 @@
                 <div class="card card-primary">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="table_id" class="table table-bordered table-hover table-striped table-condensed">
+                            <table id="table_id"
+                                   class="table table-bordered table-hover table-striped table-condensed">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Gambar</th>
-                                        <th>Kode Aset</th>
+                                        <th width="5%">No</th>
+                                        <th width="20%">Gambar</th>
+                                        <th width="20%">Kode Aset</th>
                                         <th>Nama Aset</th>
-                                        <th>Opsi</th>
+                                        <th width="20%">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($asets as $aset)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+
                                             <td class="text-center">
                                                 @if ($aset->gambar && Storage::disk('public')->exists($aset->gambar))
                                                     <img src="{{ Storage::url($aset->gambar) }}"
                                                          alt="gambar aset"
                                                          style="width:150px; height:150px; object-fit:cover; border-radius:4px;">
                                                 @else
-                                                    <div style="width:150px; height:150px; display:flex; align-items:center; justify-content:center; border:1px solid #ddd; color:#777;">
+                                                    <div style="
+                                                        width:150px;
+                                                        height:150px;
+                                                        display:flex;
+                                                        align-items:center;
+                                                        justify-content:center;
+                                                        border:1px solid #ddd;
+                                                        color:#777;">
                                                         No Image
                                                     </div>
                                                 @endif
                                             </td>
+
                                             <td>{{ $aset->kode_aset }}</td>
                                             <td>{{ $aset->nama_aset }}</td>
                                             <td>
-                                                <a href="{{ route('aset.show', $aset->id) }}" class="btn btn-success">Detail</a>
-                                                <a href="{{ route('aset.edit', $aset->id) }}" class="btn btn-warning">Edit</a>
+                                                <a href="{{ route('aset.show', $aset->id) }}"
+                                                   class="btn btn-success btn-sm">
+                                                    Detail
+                                                </a>
 
-                                                <form id="delete-form-{{ $aset->id }}" action="{{ route('aset.destroy', $aset->id) }}"
-                                                      method="POST" class="d-inline">
+                                                <a href="{{ route('aset.edit', $aset->id) }}"
+                                                   class="btn btn-warning btn-sm">
+                                                    Edit
+                                                </a>
+
+                                                <form id="delete-form-{{ $aset->id }}"
+                                                      action="{{ route('aset.destroy', $aset->id) }}"
+                                                      method="POST"
+                                                      class="d-inline">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="button"
-                                                            class="btn btn-danger swal-confirm"
+                                                            class="btn btn-danger btn-sm swal-confirm"
                                                             data-form="delete-form-{{ $aset->id }}">
                                                         Hapus
                                                     </button>
@@ -79,7 +108,7 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#table_id').DataTable();
         });
     </script>

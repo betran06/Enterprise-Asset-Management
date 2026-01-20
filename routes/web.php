@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/lokasi', LokasiController::class);
         Route::resource('/aset', AsetController::class);
         Route::put('/aset/{aset}/pengguna', [AsetController::class, 'updatePengguna'])->name('aset.updatePengguna');
+        Route::get('/aset/export/pdf', [AsetController::class, 'exportPdf'])->name('aset.export.pdf');
         Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
 
         //--cek-pelaporan--//
