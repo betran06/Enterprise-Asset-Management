@@ -10,9 +10,6 @@ use App\Models\FeedbackReply;
 
 class CekPelaporanController extends Controller
 {
-    /**
-     * List semua pelaporan (untuk user / staf / manager)
-     */
     public function index()
     {
         return view('cek-pelaporan.index', [

@@ -46,12 +46,6 @@ class AuditLog extends Model
     ];
 
     /**
-     * =========================
-     * RELATIONS
-     * =========================
-     */
-
-    /**
      * User yang melakukan aksi
      * Nullable (jika user sudah dihapus)
      */
