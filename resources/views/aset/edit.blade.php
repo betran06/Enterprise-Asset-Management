@@ -4,7 +4,7 @@
     <div class="section-header">
         <h1>Edit Data Aset</h1>
         <div class="ml-auto">
-            <a href="{{ route('aset.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>
+            <a href="{{ route('aset.index') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
         </div>
     </div>
 

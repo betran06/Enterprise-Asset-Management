@@ -4,7 +4,7 @@
     <div class="section-header">
         <h1>Edit Data Karyawan</h1>
         <div class="ml-auto">
-            <a href="/karyawan" class="btn btn-secondary">
+            <a href="/karyawan" class="btn btn-primary">
                 <i class="fa fa-back"></i> Kembali
             </a>
         </div>

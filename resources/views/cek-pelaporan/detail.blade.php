@@ -11,7 +11,7 @@
     <div class="section-header">
         <h1>Detail Pelaporan</h1>
         <div class="ml-auto">
-            <a href="/cek-pelaporan" class="btn btn-secondary">
+            <a href="/cek-pelaporan" class="btn btn-primary">
                 <i class="fa fa-back"></i> Kembali
             </a>
         </div>

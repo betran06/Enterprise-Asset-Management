@@ -17,7 +17,7 @@
 <div class="section-header">
     <h1>Detail Aset</h1>
     <div class="ml-auto">
-        <a href="{{ route('aset.index') }}" class="btn btn-secondary">
+        <a href="{{ route('aset.index') }}" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Kembali
         </a>
     </div>

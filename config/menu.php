@@ -45,12 +45,12 @@ return [
     ],
 
     [
-        'header' => 'Pelaporan',
+        'header' => 'Pelaporan Perbaikan',
         'items' => [
-            ['label' => 'Pelaporan Aset Masuk', 'icon' => 'fa fa-file-arrow-down', 'route' => 'pelaporan-masuk.index', 'roles' => ['admin','manager']],
-            ['label' => 'Tambah Pelaporan Aset', 'icon' => 'fa fa-file-circle-plus', 'route' => 'tambah-pelaporan.index', 'roles' => ['admin','staf']],
+            ['label' => 'Pelaporan Masuk', 'icon' => 'fa fa-file-arrow-down', 'route' => 'pelaporan-masuk.index', 'roles' => ['admin','manager']],
+            ['label' => 'Tambah Pelaporan', 'icon' => 'fa fa-file-circle-plus', 'route' => 'tambah-pelaporan.index', 'roles' => ['admin','staf']],
             ['label' => 'Cek Pelaporan', 'icon' => 'fa fa-file-circle-question', 'route' => 'cek-pelaporan.index', 'roles' => ['staf','manager','admin']],
-            ['label' => 'Pelaporan Aset Selesai', 'icon' => 'fa fa-file-circle-check', 'route' => 'pelaporan-selesai.index', 'roles' => ['admin','staf','manager']],
+            ['label' => 'Pelaporan Selesai', 'icon' => 'fa fa-file-circle-check', 'route' => 'pelaporan-selesai.index', 'roles' => ['admin','staf','manager']],
         ],
     ],
 

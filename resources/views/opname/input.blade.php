@@ -4,7 +4,7 @@
 <div class="section-header">
     <h1>Input Opname Aset</h1>
     <div class="ml-auto">
-        <a href="{{ route('opname.show', $opname->id) }}" class="btn btn-secondary">
+        <a href="{{ route('opname.show', $opname->id) }}" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Kembali
         </a>
     </div>

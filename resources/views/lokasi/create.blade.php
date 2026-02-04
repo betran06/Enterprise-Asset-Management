@@ -4,7 +4,7 @@
     <div class="section-header">
         <h1>Tambah Data Lokasi</h1>
         <div class="ml-auto">
-            <a href="{{ route('lokasi.index') }}" class="btn btn-secondary"><i class="fa fa-back"></i> Kembali</a>
+            <a href="{{ route('lokasi.index') }}" class="btn btn-primary"><i class="fa fa-back"></i> Kembali</a>
         </div>
     </div>
 

@@ -4,14 +4,12 @@
     <div class="section-header">
         <h1>Data Aset</h1>
         <div class="ml-auto">
-            {{-- EXPORT PDF --}}
             <a href="{{ route('aset.export.pdf') }}"
                target="_blank"
                class="btn btn-danger mr-2">
                 <i class="fa fa-file-pdf"></i> Export PDF
             </a>
 
-            {{-- TAMBAH ASET --}}
             <a href="{{ route('aset.create') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Tambah Aset
             </a>

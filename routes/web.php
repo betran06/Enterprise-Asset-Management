@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+// use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\AsetController;
@@ -27,9 +28,8 @@ use App\Http\Controllers\AuditTrailController;
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::group(['middleware'  => 'CheckRole:admin,staf,manager'], function () {
-    // Route::group(['middleware'], function () {
-        Route::get('/', [HomeController::class, 'index']);
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/home', [DashboardController::class, 'index'])->name('home');
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/lokasi', LokasiController::class);
         Route::resource('/aset', AsetController::class);

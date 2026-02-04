@@ -4,7 +4,7 @@
 <div class="section-header">
     <h1>Buat Opname Aset</h1>
     <div class="ml-auto">
-        <a href="{{ route('opname.index') }}" class="btn btn-secondary">
+        <a href="{{ route('opname.index') }}" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Kembali
         </a>
     </div>

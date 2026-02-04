@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="section-header">
-        <h1>Manajemen User</h1>
+        <h1>Daftar Akun</h1>
         <div class="ml-auto">
             <a href="{{ route('users.create') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Tambah Akun

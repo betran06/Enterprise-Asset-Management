@@ -4,7 +4,7 @@
 <div class="section-header">
     <h1>Disposal Aset</h1>
     <div class="ml-auto">
-        <a href="{{ route('penyusutan.show', $aset->id) }}" class="btn btn-secondary">
+        <a href="{{ route('penyusutan.show', $aset->id) }}" class="btn btn-primary">
             Kembali
         </a>
     </div>

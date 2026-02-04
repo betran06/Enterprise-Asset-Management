@@ -2,12 +2,11 @@
 
 @section('content')
     <div class="section-header">
-        <h1>Aktivitas Sistem</h1>
+        <h1>Daftar Aktivitas Akun</h1>
     </div>
 
     <div class="section-body">
 
-        {{-- Filter --}}
         <div class="card mb-3">
             <div class="card-body">
                 <form method="GET" class="form-inline">
@@ -36,7 +35,6 @@
             </div>
         </div>
 
-        {{-- Tabel Aktivitas --}}
         <div class="card card-primary">
             <div class="card-body">
                 <div class="table-responsive">
@@ -68,7 +66,7 @@
                                     <td>{{ $log->ip_address }}</td>
                                     <td>
                                         <a href="{{ route('audit.show', $log->id) }}"
-                                           class="btn btn-sm btn-secondary">
+                                           class="btn btn-sm btn-success">
                                             Detail
                                         </a>
                                     </td>
@@ -82,7 +80,6 @@
 
     </div>
 
-    {{-- DataTables --}}
     <script>
         $(document).ready(function () {
             $('#table_log').DataTable({

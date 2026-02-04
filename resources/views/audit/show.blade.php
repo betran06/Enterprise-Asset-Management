@@ -4,7 +4,7 @@
 <div class="section-header">
     <h1>Detail Audit</h1>
     <div class="ml-auto">
-        <a href="{{ route('audit.index') }}" class="btn btn-secondary">
+        <a href="{{ route('audit.index') }}" class="btn btn-primary">
             Kembali
         </a>
     </div>

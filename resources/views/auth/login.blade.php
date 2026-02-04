@@ -15,8 +15,8 @@
 
                     <div style="width: 100%; max-width: 420px;">
                         <div class="text-center mb-4">
-                            <h3 class="custom-title">Sistem Inventaris</h3>
-                            <p class="custom-subtitle">Pelaporan Barang Menggunakan QR CODE</p>
+                            <h3 class="custom-title">Sistem Inventaris Aset</h3>
+                            <p class="custom-subtitle">Inventarisasi Aset Menggunakan QR CODE</p>
                         </div>
 
                         <div class="card card-primary shadow">
@@ -39,7 +39,6 @@
                                 <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
                                     @csrf
 
-                                    {{-- EMAIL --}}
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <div class="input-group">
@@ -51,7 +50,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- PASSWORD --}}
                                     <div class="form-group">
                                         <label for="password" class="d-block">Password</label>
                                         <div class="input-group">
@@ -63,7 +61,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- REMEMBER --}}
                                     <div class="form-group d-flex justify-content-between align-items-center">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" name="remember" class="custom-control-input" id="remember-me">
@@ -71,7 +68,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- BUTTON --}}
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                                             Login
@@ -83,7 +79,7 @@
                         </div>
 
                         <div class="simple-footer text-center mt-3 text-muted">
-                            &copy; {{ date('Y') }} Aplikasi Inventaris
+                            &copy; {{ date('Y') }} Aplikasi Inventaris Aset (Betran-1152525003)
                         </div>
 
                     </div>
