@@ -10,23 +10,25 @@
 
 # 🧾 Sistem Informasi Inventaris Aset Kantor
 
-Proyek ini merupakan **Sistem Informasi Inventaris Aset Berbasis Web** yang dikembangkan menggunakan **Laravel 10**.  
-Aplikasi ini dirancang untuk membantu perusahaan dalam **pendataan, pelacakan, penyusutan, dan pelaporan aset kantor**,  
-serta mencatat setiap aktivitas perubahan data melalui fitur **Audit Trail**.
+This project is a **Web-Based Office Asset Inventory Management** System developed using **Laravel 10**.
+The application is designed to help companies manage **asset registration, tracking, depreciation calculation, and reporting**, 
+while recording all system activities through an advanced **Audit Trail** feature.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Core Features
 
-### 🏷️ Manajemen Aset
-- Tambah, ubah, hapus, dan cari data aset.
-- Aset dikelompokkan berdasarkan **kategori**, **lokasi**, dan **pengguna (karyawan)**.
+### 🏷️ Asset Management
+- Create, update, delete, and search asset records.
+- Assets are categorized by **category**, **location**, and **assigned employee**.
 - Setiap aset memiliki **kode unik (QR Code)** yang dapat discan untuk melihat detailnya.
 
-### 📱 QR Code
-- Generate QR Code otomatis berdasarkan `kode_aset`.
-- QR disimpan di folder `storage/app/public/qr/` (atau di-generate on-the-fly).
-- Fitur **Scan QR** menggunakan kamera perangkat untuk menampilkan detail aset secara langsung.
+
+### 📱 QR Code Integration
+- Automatic QR Code generation based on `asset_code`.
+- QR codes stored in `storage/app/public/qr/` or generated dynamically.
+- Built-in QR Scanner feature to instantly display asset details via camera.
+
 
 ### 📉 Penyusutan Aset
 - Menghitung penyusutan otomatis berdasarkan **metode garis lurus (straight-line)** atau **saldo menurun (declining balance)**.
@@ -76,6 +78,12 @@ serta mencatat setiap aktivitas perubahan data melalui fitur **Audit Trail**.
 
 ---
 
+👨‍💻 Author
+
+Betran Arya Pramuja
+Backend Developer | Laravel Enthusiast
+
+---
 ## ⚙️ Instalasi
 
 1. **Clone repository**
