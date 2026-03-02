@@ -8,11 +8,11 @@
 </p>
 
 
-# 🧾 Sistem Informasi Inventaris Aset Kantor
+# 🧾 Enterprise Asset Management System
 
-This project is a **Web-Based Office Asset Inventory Management** System developed using **Laravel 10**.
-The application is designed to help companies manage **asset registration, tracking, depreciation calculation, and reporting**, 
-while recording all system activities through an advanced **Audit Trail** feature.
+Enterprise Asset Management System (EAMS) is a web-based application developed using Laravel 10 to manage company office assets efficiently and securely.
+
+This system provides comprehensive asset registration, QR code tracking, depreciation calculation, audit trail logging, and role-based access control. It is designed to support asset lifecycle management, compliance monitoring, and structured reporting within an organization.
 
 ---
 
@@ -21,44 +21,90 @@ while recording all system activities through an advanced **Audit Trail** featur
 ### 🏷️ Asset Management
 - Create, update, delete, and search asset records.
 - Assets are categorized by **category**, **location**, and **assigned employee**.
-- Setiap aset memiliki **kode unik (QR Code)** yang dapat discan untuk melihat detailnya.
+- Each asset is assigned a unique **Asset Code**.
+- Full asset lifecycle management from acquisition to disposal.
 
+---
 
 ### 📱 QR Code Integration
 - Automatic QR Code generation based on `asset_code`.
 - QR codes stored in `storage/app/public/qr/` or generated dynamically.
-- Built-in QR Scanner feature to instantly display asset details via camera.
+- Built-in QR Scanner feature to instantly display asset details.
+- Quick asset verification using device camera.
 
+---
 
-### 📉 Penyusutan Aset
-- Menghitung penyusutan otomatis berdasarkan **metode garis lurus (straight-line)** atau **saldo menurun (declining balance)**.
-- Mengacu pada **kelompok harta DJP (Direktorat Jenderal Pajak)**.
-- Menyimpan histori penyusutan bulanan dalam tabel `penyusutan_bulanan`.
-- Dapat menandai aset **disposed** (rusak, dijual, hibah, hilang, dll).
+### 📉 Asset Depreciation
+- Automatic depreciation calculation using:
+  - **Straight-Line Method**
+  - **Declining Balance Method**
+- Based on Indonesian Tax Office (DJP) asset classification.
+- Monthly depreciation records stored in `monthly_depreciations` table.
+- Tracks asset book value over time.
+- Supports asset disposal (damaged, sold, donated, lost, etc.).
 
-### 🧍 Manajemen Karyawan
-- Menyimpan data pemakai aset (karyawan) lengkap dengan kode, departemen, dan jabatan.
-- Aset dapat dikaitkan atau dilepaskan dari karyawan (nullable relationship).
-- Jika karyawan dihapus, data aset tetap aman (`ON DELETE SET NULL`).
+---
 
-### 🧠 Audit Trail (Activity Log)
-- Menggunakan **Spatie Laravel Activitylog** untuk mencatat semua aktivitas sistem.
-- Menyimpan:
-  - siapa melakukan apa,
-  - waktu kejadian,
-  - data sebelum & sesudah perubahan,
-  - URL, IP, dan metode HTTP.
-- Log utama tersimpan di tabel `activity_log` dan dimirror ke `audit_logs` untuk tampilan UI.
+### 🧍 Employee Management
+- Store employee information (code, department, position).
+- Assets can be assigned/unassigned to employees (nullable relationship).
+- If an employee is deleted, related asset data remains safe (`ON DELETE SET NULL`).
 
-### 🧾 Pelaporan & Feedback
-- Modul pelaporan kerusakan aset oleh user.
-- Status pelaporan: **Menunggu** / **Selesai**.
-- Modul feedback & tanggapan perbaikan dari admin.
+---
 
-### 🔐 Role dan Akses
-- Sistem menggunakan middleware custom `CheckRole`.
-- Role default: **admin** dan **user**.
-- Admin memiliki akses penuh terhadap seluruh modul.
+### 🧠 Audit Trail (Activity Logging)
+- Implemented using **Spatie Laravel Activitylog**.
+- Logs:
+  - User who performed the action
+  - Timestamp
+  - Data before and after modification
+  - URL, IP address, HTTP method
+- Primary logs stored in `activity_log`.
+- Mirrored into `audit_logs` for reporting and UI display.
+- Ensures transparency and accountability.
+
+---
+
+### 🧾 Reporting & Feedback
+- Asset damage reporting module.
+- Report status: **Pending** / **Resolved**.
+- Admin repair feedback system.
+- Export reports to PDF.
+- Dashboard summary & monitoring.
+
+---
+
+## 🔐 Roles & Access Control
+
+The system uses custom `CheckRole` middleware for role-based authorization.
+
+### 👑 Admin
+- Full system access
+- Manage assets, employees, users, and roles
+- Configure depreciation settings
+- View and export audit trail logs
+- Manage reports and feedback
+
+### 👨‍💼 Manager
+- View asset data and summary reports
+- Monitor depreciation values
+- Review damage reports
+- Access dashboard analytics
+
+### 👨‍🔧 Staff
+- Register new assets
+- Update asset status
+- Scan QR codes
+- Submit damage reports
+- View assigned assets
+
+### 🔎 Auditor
+- Read-only access to:
+  - Asset data
+  - Depreciation reports
+  - Audit trail logs
+- Generate audit reports
+- Monitor compliance and asset changes
 
 ---
 
