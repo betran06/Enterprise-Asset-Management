@@ -16,6 +16,9 @@ use Endroid\QrCode\Writer\PngWriter;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\AuditTrailService;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AsetExport;
+
 class AsetController extends Controller
 {
     public function index()
@@ -291,5 +294,25 @@ class AsetController extends Controller
         ])->setPaper('A4', 'portrait');
 
         return $pdf->stream('daftar-aset.pdf');
+    }
+
+    public function exportLaporanKeseluruhan()
+    {   
+        $asets = Aset::with(['kategori', 'lokasi', 'karyawan'])
+            ->orderBy('kode_aset')
+            ->get();
+
+        $pdf = Pdf::loadView('aset.laporan-aset-keseluruhan', [
+            'asets' => $asets,
+            'tanggal' => now()->format('d-m-Y'),
+            'total' => $asets->count(),
+        ])->setPaper('A4', 'portrait');
+
+        return $pdf->download('laporan-keseluruhan-aset.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new AsetExport, 'data-aset-perusahaan.xlsx');
     }
 }

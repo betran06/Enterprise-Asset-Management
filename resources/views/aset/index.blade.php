@@ -4,10 +4,23 @@
     <div class="section-header">
         <h1>Data Aset</h1>
         <div class="ml-auto">
+            <a href="{{ route('aset.export.excel') }}"
+                class="btn btn-success mr-2">
+                <i class="fa fa-file-excel"></i> Export Excel
+            </a>
+
+            {{-- Export code --}}
             <a href="{{ route('aset.export.pdf') }}"
                target="_blank"
                class="btn btn-danger mr-2">
-                <i class="fa fa-file-pdf"></i> Export PDF
+                <i class="fa fa-file-pdf"></i> Export QrCode
+            </a>
+
+            {{-- Export Laporan Keseluruhan --}}
+            <a href="{{ route('aset.export.keseluruhan') }}"
+            target="_blank"
+            class="btn btn-danger mr-2">
+                <i class="fa fa-file-pdf"></i> Export Laporan
             </a>
 
             <a href="{{ route('aset.create') }}" class="btn btn-primary">

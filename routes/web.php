@@ -35,7 +35,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('/aset', AsetController::class);
         Route::put('/aset/{aset}/pengguna', [AsetController::class, 'updatePengguna'])->name('aset.updatePengguna');
         Route::get('/aset/export/pdf', [AsetController::class, 'exportPdf'])->name('aset.export.pdf');
+        Route::get('/aset/export/laporan-keseluruhan', [AsetController::class, 'exportLaporanKeseluruhan'])->name('aset.export.keseluruhan');
         Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
+        Route::get('/aset/export/excel', [AsetController::class, 'exportExcel'])->name('aset.export.excel');
 
         //--cek-pelaporan--//
         Route::get('/cek-pelaporan', [CekPelaporanController::class, 'index'])->name('cek-pelaporan.index');

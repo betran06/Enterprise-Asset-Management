@@ -17,3 +17,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+/database/migrations/2025_11_17_111911_create_audit_logs_table.php
+/database/migrations/2025_11_17_111848_create_feedback_table.php
+/database/migrations/2025_11_17_111900_create_feedback_replies_table.php
+/database/migrations/2025_11_17_111805_create_asset_penyusutan_setting_table.php
+/database/migrations/2026_01_07_004630_create_opname_detail_table.php

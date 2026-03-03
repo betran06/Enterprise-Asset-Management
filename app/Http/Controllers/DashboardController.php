@@ -6,17 +6,19 @@ use App\Models\Aset;
 use App\Models\LokasiAset;
 use App\Models\KategoriAset;
 use App\Models\User;
-use App\Models\Karyawan;
 use App\Models\Pelaporan;
 use App\Models\AuditLog;
 use App\Models\Opname;
 use App\Models\AsetPenyusutanSetting;
+use App\Models\PenyusutanBulanan;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        $role = auth()->user()->role->role;
+
         // =========================
         // DATA UMUM (SEMUA ROLE)
         // =========================
@@ -59,17 +61,39 @@ class DashboardController extends Controller
 
         $totalOpname = Opname::count();
 
+        
         // =========================
-        // MANAJER
+        // MANAGER
         // =========================
-        $totalKaryawan = Karyawan::count();
+        $totalPenyusutan = null;
+        $pelaporanMasuk  = collect();
+        $penyusutanTerakhir  = collect();
 
-        $penyusutanAset = Aset::with('penyusutanSetting')
-            ->whereHas('penyusutanSetting', function ($q) {
-                $q->where('is_disposed', false);
-            })
-            ->limit(5)
-            ->get();
+        if ($role === 'manager') {
+
+            // aset yang punya setting penyusutan
+            $totalPenyusutan = AsetPenyusutanSetting::count();
+
+            $totalOpname = Opname::count();
+
+            // pelaporan masuk (limit 5)
+            $pelaporanMasuk = Pelaporan::with('aset')
+                ->orderBy('created_at', 'DESC')
+                ->limit(5)
+                ->get();
+
+            // ==============================
+            // Ambil SEMUA aset + penyusutan terakhir masing-masing
+            // ==============================
+            $penyusutanTerakhir = Aset::with([
+                    'penyusutanBulanan' => function ($query) {
+                        $query->orderByDesc('periode');
+                    }
+                ])
+                ->whereHas('penyusutanBulanan') // hanya aset yang sudah pernah disusutkan
+                ->get();
+        }
+
 
         return view('home', compact(
             // umum
@@ -87,9 +111,11 @@ class DashboardController extends Controller
             'pelaporanStaf',
             'totalOpname',
 
-            // manajer
-            'totalKaryawan',
-            'penyusutanAset'
+            // manager
+            'totalPenyusutan',
+            'totalOpname',
+            'pelaporanMasuk',
+            'penyusutanTerakhir'
         ));
     }
 }
