@@ -1,52 +1,110 @@
-# 🧾 Sistem Informasi Inventaris Aset Kantor
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Proyek ini merupakan **Sistem Informasi Inventaris Aset Berbasis Web** yang dikembangkan menggunakan **Laravel 10**.  
-Aplikasi ini dirancang untuk membantu perusahaan dalam **pendataan, pelacakan, penyusutan, dan pelaporan aset kantor**,  
-serta mencatat setiap aktivitas perubahan data melalui fitur **Audit Trail**.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
+
+
+# 🧾 Enterprise Asset Management System
+
+Enterprise Asset Management System (EAMS) is a web-based application developed using Laravel 10 to manage company office assets efficiently and securely.
+
+This system provides comprehensive asset registration, QR code tracking, depreciation calculation, audit trail logging, and role-based access control. It is designed to support asset lifecycle management, compliance monitoring, and structured reporting within an organization.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Core Features
 
-### 🏷️ Manajemen Aset
-- Tambah, ubah, hapus, dan cari data aset.
-- Aset dikelompokkan berdasarkan **kategori**, **lokasi**, dan **pengguna (karyawan)**.
-- Setiap aset memiliki **kode unik (QR Code)** yang dapat discan untuk melihat detailnya.
+### 🏷️ Asset Management
+- Create, update, delete, and search asset records.
+- Assets are categorized by **category**, **location**, and **assigned employee**.
+- Each asset is assigned a unique **Asset Code**.
+- Full asset lifecycle management from acquisition to disposal.
 
-### 📱 QR Code
-- Generate QR Code otomatis berdasarkan `kode_aset`.
-- QR disimpan di folder `storage/app/public/qr/` (atau di-generate on-the-fly).
-- Fitur **Scan QR** menggunakan kamera perangkat untuk menampilkan detail aset secara langsung.
+---
 
-### 📉 Penyusutan Aset
-- Menghitung penyusutan otomatis berdasarkan **metode garis lurus (straight-line)** atau **saldo menurun (declining balance)**.
-- Mengacu pada **kelompok harta DJP (Direktorat Jenderal Pajak)**.
-- Menyimpan histori penyusutan bulanan dalam tabel `penyusutan_bulanan`.
-- Dapat menandai aset **disposed** (rusak, dijual, hibah, hilang, dll).
+### 📱 QR Code Integration
+- Automatic QR Code generation based on `asset_code`.
+- QR codes stored in `storage/app/public/qr/` or generated dynamically.
+- Built-in QR Scanner feature to instantly display asset details.
+- Quick asset verification using device camera.
 
-### 🧍 Manajemen Karyawan
-- Menyimpan data pemakai aset (karyawan) lengkap dengan kode, departemen, dan jabatan.
-- Aset dapat dikaitkan atau dilepaskan dari karyawan (nullable relationship).
-- Jika karyawan dihapus, data aset tetap aman (`ON DELETE SET NULL`).
+---
 
-### 🧠 Audit Trail (Activity Log)
-- Menggunakan **Spatie Laravel Activitylog** untuk mencatat semua aktivitas sistem.
-- Menyimpan:
-  - siapa melakukan apa,
-  - waktu kejadian,
-  - data sebelum & sesudah perubahan,
-  - URL, IP, dan metode HTTP.
-- Log utama tersimpan di tabel `activity_log` dan dimirror ke `audit_logs` untuk tampilan UI.
+### 📉 Asset Depreciation
+- Automatic depreciation calculation using:
+  - **Straight-Line Method**
+  - **Declining Balance Method**
+- Based on Indonesian Tax Office (DJP) asset classification.
+- Monthly depreciation records stored in `monthly_depreciations` table.
+- Tracks asset book value over time.
+- Supports asset disposal (damaged, sold, donated, lost, etc.).
 
-### 🧾 Pelaporan & Feedback
-- Modul pelaporan kerusakan aset oleh user.
-- Status pelaporan: **Menunggu** / **Selesai**.
-- Modul feedback & tanggapan perbaikan dari admin.
+---
 
-### 🔐 Role dan Akses
-- Sistem menggunakan middleware custom `CheckRole`.
-- Role default: **admin** dan **user**.
-- Admin memiliki akses penuh terhadap seluruh modul.
+### 🧍 Employee Management
+- Store employee information (code, department, position).
+- Assets can be assigned/unassigned to employees (nullable relationship).
+- If an employee is deleted, related asset data remains safe (`ON DELETE SET NULL`).
+
+---
+
+### 🧠 Audit Trail (Activity Logging)
+- Implemented using **Spatie Laravel Activitylog**.
+- Logs:
+  - User who performed the action
+  - Timestamp
+  - Data before and after modification
+  - URL, IP address, HTTP method
+- Primary logs stored in `activity_log`.
+- Mirrored into `audit_logs` for reporting and UI display.
+- Ensures transparency and accountability.
+
+---
+
+### 🧾 Reporting & Feedback
+- Asset damage reporting module.
+- Report status: **Pending** / **Resolved**.
+- Admin repair feedback system.
+- Export reports to PDF.
+- Dashboard summary & monitoring.
+
+---
+
+## 🔐 Roles & Access Control
+
+The system uses custom `CheckRole` middleware for role-based authorization.
+
+### 👑 Admin
+- Full system access
+- Manage assets, employees, users, and roles
+- Configure depreciation settings
+- View and export audit trail logs
+- Manage reports and feedback
+
+### 👨‍💼 Manager
+- View asset data and summary reports
+- Monitor depreciation values
+- Review damage reports
+- Access dashboard analytics
+
+### 👨‍🔧 Staff
+- Register new assets
+- Update asset status
+- Scan QR codes
+- Submit damage reports
+- View assigned assets
+
+### 🔎 Auditor
+- Read-only access to:
+  - Asset data
+  - Depreciation reports
+  - Audit trail logs
+- Generate audit reports
+- Monitor compliance and asset changes
 
 ---
 
@@ -66,6 +124,12 @@ serta mencatat setiap aktivitas perubahan data melalui fitur **Audit Trail**.
 
 ---
 
+👨‍💻 Author
+
+Betran Arya Pramuja
+Backend Developer | Laravel Enthusiast
+
+---
 ## ⚙️ Instalasi
 
 1. **Clone repository**
@@ -76,69 +140,3 @@ serta mencatat setiap aktivitas perubahan data melalui fitur **Audit Trail**.
 <=========================================================================>
 <=========================================================================>
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
