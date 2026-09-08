@@ -130,13 +130,4 @@ Betran Arya Pramuja
 Backend Developer | Laravel Enthusiast
 
 ---
-## ⚙️ Instalasi
-
-1. **Clone repository**
-   ```bash
-   git clone https://github.com/username/inventaris-aset.git
-   cd inventaris-aset
-
-<=========================================================================>
-<=========================================================================>
 
